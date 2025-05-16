@@ -25,6 +25,13 @@ class TelegramBotController extends Controller
         return response()->json($result);
     }
 
+    public function unsetWebhook()
+    {
+        $result = Telegram::deleteWebhook();
+
+        return response()->json($result);
+    }
+
     public function handleWebhook($token, Request $request, GptServiceInterface $gptService)
     {
         Telegram::commandsHandler(true);
