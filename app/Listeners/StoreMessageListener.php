@@ -25,12 +25,13 @@ class StoreMessageListener
      */
     public function handle(MessageReceivedEvent $event): void
     {
+        /** @var Customer $customer */
         $customer = Customer::firstOrCreate([
             $event->messageData->source->identifierField() => $event->messageData->identifier
         ]);
 
         Message::create([
-            'customer_id' => $customer->id,
+            'customer_id' => $customer->refresh()->id,
             'role' => $event->role,
             'content' => $event->messageData->text,
         ]);
