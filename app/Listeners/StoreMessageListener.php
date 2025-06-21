@@ -30,7 +30,8 @@ class StoreMessageListener
         $customer = Customer::firstOrCreate([
             $event->messageData->source->identifierField() => $event->messageData->identifier
         ]);
-        Log::debug('message Data', ['data' => $event->messageData]);
+        $customer = Customer::where($event->messageData->source->identifierField(), $event->messageData->identifier)->first();
+        Log::debug('store message listener', ['data' => $event->messageData, 'customer' => $customer]);
 
         Message::create([
             'customer_id' => $customer->refresh()->id,
