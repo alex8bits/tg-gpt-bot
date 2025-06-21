@@ -29,6 +29,7 @@ class RememberUsCommand extends Command
             identifier: $id,
             text: $text,
             source: MessageSources::Telegram);
+        Log::debug('messageData', ['data' => $message]);
         MessageReceivedEvent::dispatch($message, 'assistant');
 
         Cache::put($id . "_prompt", config('open_ai.prompt') . ' Используй следующий сценарий общения с клиентом. Сценарий описан в формате состояний. На каждом этапе задавай вопрос и жди ответа пользователя, затем переходи к следующему состоянию. Вот сценарий:' . $this->getScenario($text));
