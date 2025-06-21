@@ -20,7 +20,7 @@ class TelegramBotController extends Controller
 
     public function setWebhook()
     {
-        $result = Telegram::setWebhook(['url' => config('app.url') . '/api/v1/botwebhook/' . config('telegram.bots.mybot.token')]);
+        $result = Telegram::setWebhook(['url' => config('app.url') . '/webhook/' . config('telegram.bots.mybot.token')]);
 
         return response()->json($result);
     }
