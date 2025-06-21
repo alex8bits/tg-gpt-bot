@@ -2,6 +2,7 @@
 
 namespace App\Telegram\Commands;
 
+use App\Models\Customer;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +20,7 @@ class DeleteHistoryCommand extends Command
     {
         $update = $this->getUpdate();
         $chat_id = $update->getMessage()->getChat()->getId();
-        $user = User::whereTelegramId($chat_id)->first();
+        $user = Customer::whereTelegramId($chat_id)->first();
         $user?->messages()->delete();
         $user->update([
             'rating' => config('open_ai.user_context_threshold')
@@ -34,7 +35,7 @@ class DeleteHistoryCommand extends Command
     public function handleCallback(CallbackQuery $query)
     {
         $id = $query->from->id;
-        $user = User::whereTelegramId($id)->first();
+        $user = Customer::whereTelegramId($id)->first();
         $user?->messages()->delete();
         $user->update([
             'rating' => config('open_ai.user_context_threshold')
