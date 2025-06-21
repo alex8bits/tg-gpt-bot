@@ -1,0 +1,97 @@
+services:
+    apache:
+        build:
+            context: ./docker/dockerfiles
+            dockerfile: php.Dockerfile
+        container_name: apache
+        ports:
+            - "8000:80"
+        restart: unless-stopped
+        volumes:
+            - .:/var/www/laravel
+            - ./docker/apache/vhost.conf:/etc/apache2/sites-available/000-default.conf:ro
+        depends_on:
+            - php
+        networks:
+            - local_network
+        environment:
+            APACHE_DOCUMENT_ROOT: /var/www/laravel/public
+
+    php:
+        build:
+            context: ./docker/dockerfiles
+            dockerfile: php.Dockerfile
+        restart: unless-stopped
+        volumes:
+            - .:/var/www/laravel
+        user: "1000:1000"
+        networks:
+            - local_network
+
+    db:
+        image: mariadb
+        ports:
+            - "3300:3306"
+        restart: unless-stopped
+        env_file:
+            - .env
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ALLOW_EMPTY_PASSWORD: YES
+            innodb_default_row_format: DYNAMIC
+            innodb_file_per_table: ON
+            innodb_file_format: Barracuda
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - local_network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        ports:
+            - 8800:80
+        depends_on:
+            - db
+        restart: unless-stopped
+        environment:
+            PMA_HOST: db
+            PMA_USER: ${DB_USERNAME}
+            PMA_PASSWORD: ${DB_PASSWORD}
+            PMA_ARBITRARY: 1
+            UPLOAD_LIMIT: 640M
+        networks:
+            - local_network
+
+    composer:
+        build:
+            context: ./docker/dockerfiles
+            dockerfile: composer.Dockerfile
+        volumes:
+            - .:/var/www/laravel
+        user: "1000:1000"
+        networks:
+            - local_network
+
+    artisan:
+        build:
+            context: ./docker/dockerfiles
+            dockerfile: php.Dockerfile
+        volumes:
+            - .:/var/www/laravel
+        user: "1000:1000"
+        networks:
+            - local_network
+        entrypoint: ["php", "/var/www/laravel/artisan"]
+
+volumes:
+    db_data:
+    elastic_data:
+    rabbitdata:
+    redisdata:
+
+networks:
+    local_network:
+        driver: bridge

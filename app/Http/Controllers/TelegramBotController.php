@@ -32,7 +32,7 @@ class TelegramBotController extends Controller
         return response()->json($result);
     }
 
-    public function handleWebhook($token, Request $request, GptServiceInterface $gptService)
+    public function handleWebhook($token, Request $request)
     {
         Telegram::commandsHandler(true);
         if (isset($request->callback_query) || (isset($request->message['entities']) && $request->message['entities'][0]['type'] == 'bot_command')) {
