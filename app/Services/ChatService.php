@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\GptMessageData;
 use App\DTO\MessengerMessageData;
 use App\Enums\MessageSources;
+use App\Models\Customer;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -16,11 +17,11 @@ class ChatService
 
     public function sendMessage(MessengerMessageData $messageData, $prompt = null)
     {
-        $user = User::firstOrCreate([$messageData->source->identifierField() => $messageData->identifier]);
-        if ($user->rating < 1) {
+        $customer = Customer::firstOrCreate([$messageData->source->identifierField() => $messageData->identifier]);
+        if ($customer->rating < 1) {
             return false;
         }
-        $user_messages = $user->messages;
+        $user_messages = $customer->messages;
         $messages = [];
         $messages[] = new GptMessageData('system', $prompt ?? config('open_ai.prompt'));
         /** @var Message $message */
@@ -40,8 +41,8 @@ class ChatService
         try {
             $score = json_decode($moderator_response[0]);
             if ($score->score < 3) {
-                $user->decrement('rating');
-                if ($user->rating === 0) {
+                $customer->decrement('rating');
+                if ($customer->rating === 0) {
                     return "Извините, больше Вас не обеспокоим";
                 }
             }
@@ -49,7 +50,7 @@ class ChatService
             Log::warning('could not get score');
         }
 
-        Log::debug('user rating', ['value' => $user->rating]);
+        Log::debug('user rating', ['value' => $customer->rating]);
 
         $response = $this->gptService->sendMessages($messages, $prompt);
 

@@ -37,6 +37,7 @@ class StoreMessageListener
             'customer_id' => $customer->refresh()->id,
             'role' => $event->role,
             'content' => $event->messageData->text,
+            'gpt_bot_id' => $event->messageData->bot->id
         ]);
     }
 }
