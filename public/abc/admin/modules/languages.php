@@ -288,7 +288,6 @@ $form[4][] = lang_form('input td3','basket|delivery_cost','стоимость д
 $form[4][] = lang_form('input td3','basket|comment','коммен к заказу');
 $form[4][] = lang_form('input td3','basket|order','оформить заказ');
 $form[4][] = '<h2>Статистика заказов</h2>';
-$form[4][] = lang_form('input td3','basket|orders','статистика заказов');
 $form[4][] = lang_form('input td3','basket|order_name','заказ');
 $form[4][] = lang_form('input td3','basket|order_from','от');
 $form[4][] = lang_form('input td3','basket|order_status','статус');

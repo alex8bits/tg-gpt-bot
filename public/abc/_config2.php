@@ -31,7 +31,7 @@ $config['amp'] = 0;
 
 //локальная версия
 $config['local'] = (($_SERVER['REMOTE_ADDR']=='127.0.0.1' AND $_SERVER['SERVER_ADDR']=='127.0.0.1')
-    OR ($_SERVER['HTTP_HOST'] == 'localhost')) ? true : false;
+    OR ($_SERVER['HTTP_HOST'] == 'localhost:8000')) ? true : false;
 
 $config['smartoptimizer'] = false; //поставить true если nginx отдает статику и не работает смартоптимайзер
 
@@ -51,16 +51,16 @@ $config['_imgs'] = array(
 );
 
 //database - для избегания случайного затирания тестовой базы поля пустые
-$config['mysql_server'] = '';
-$config['mysql_username'] = '';
+$config['mysql_server'] = '127.0.0.1';
+$config['mysql_username'] = 'bot';
 $config['mysql_password'] = '';
-$config['mysql_database'] = '';
+$config['mysql_database'] = 'Sx]alY8O*[5ZOHeB';
 //исключение для локальной версии
 if ($config['local']) {
-	$config['mysql_server'] = ($_SERVER['HTTP_HOST'] == 'localhost') ? 'mariadb' : 'localhost';
-	$config['mysql_username'] = 'bot';
-	$config['mysql_password'] = 'Sx]alY8O*[5ZOHeB';
-	$config['mysql_database'] = 'bot';
+	$config['mysql_server'] = ($_SERVER['HTTP_HOST'] == 'localhost:8000') ? 'db' : 'localhost';
+	$config['mysql_username'] = 'root';
+	$config['mysql_password'] = '';
+	$config['mysql_database'] = 'laravel';
 }
 //исключение тестовой версии
 elseif($_SERVER['SERVER_NAME'] == 'abc-cms.com'){

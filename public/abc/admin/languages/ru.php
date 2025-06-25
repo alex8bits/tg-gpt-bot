@@ -24,6 +24,7 @@ $a18n = array(
 	'country'       => 'страна',
 	'close_not_save'=> 'закрыть окно без сохранения данных',
 	'created_at'    => 'создано',
+    'customers'     => 'Клиенты',
 	'date'			=> 'дата',
 	'date_sent'		=> 'отправлено',
 	'description'	=> 'description',

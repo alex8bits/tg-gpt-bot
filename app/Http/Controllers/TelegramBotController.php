@@ -52,7 +52,7 @@ class TelegramBotController extends Controller
         ], [
             'name' => $update_message->getChat()->name,
         ]);
-        $current_bot = GPTBot::find(Cache::get($update_message->getChat()->id . '_current_bot')) ?? GPTBot::whereType(BotTypes::GREETER)->first();
+        $current_bot = GPTBot::find(Cache::get($update_message->getChat()->id . '_current_bot')) ?? GPTBot::whereType(BotTypes::WELCOME)->first();
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
         MessageReceivedEvent::dispatch($update_message);
 

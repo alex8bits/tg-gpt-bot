@@ -70,7 +70,7 @@ class ChatService
     public static function greet($chat_id, MessageSources $source, $gptService)
     {
         /** @var GPTBot $greeter */
-        $greeter = GPTBot::whereType(BotTypes::GREETER)->first();
+        $greeter = GPTBot::whereType(BotTypes::WELCOME)->first();
 
         /** @var Customer $customer */
         $customer = Customer::firstOrCreate([$source->identifierField() => $chat_id]);

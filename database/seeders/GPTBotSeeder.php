@@ -15,9 +15,9 @@ class GPTBotSeeder extends Seeder
     public function run(): void
     {
         GPTBot::firstOrCreate([
-            'type' => BotTypes::GREETER,
+            'type' => BotTypes::WELCOME,
         ], [
-            'name' => BotTypes::GREETER->value,
+            'name' => BotTypes::WELCOME->value,
             'prompt' => "Поздоровася с пользователем",
         ]);
         GPTBot::firstOrCreate([

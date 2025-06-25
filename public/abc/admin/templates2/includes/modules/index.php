@@ -13,15 +13,6 @@ if (!isset($q['years'][$year])) $year = date('Y');
 $where = "created_at>'".$year."-01-01' AND created_at<'".($year+1)."-01-01'";
 
 $q['totals']['users'] = mysql_select("SELECT COUNT(id) FROM users WHERE id>1 AND ".$where,'string');
-$q['totals']['orders'] = mysql_select("SELECT COUNT(id) FROM orders WHERE ".$where,'string');
-$q['totals']['feedback'] = mysql_select("SELECT COUNT(id) FROM feedback WHERE ".$where,'string');
-
-$q['orders'] = mysql_select("
-		SELECT *
-		FROM orders
-		ORDER BY created_at DESC
-		LIMIT 5
-	",'rows');
 
 $q['users'] = mysql_select("
 		SELECT *
@@ -64,7 +55,7 @@ $q['users'] = mysql_select("
 	<div class="col-md-4">
 		<div class="card card-body">
 			<h3 class="mb-3">
-				<?=$q['totals']['orders']?>
+				<?=$q['totals']['users']?>
 				<small>Заказов</small>
 			</h3>
 		</div>
@@ -72,7 +63,7 @@ $q['users'] = mysql_select("
 	<div class="col-md-4">
 		<div class="card card-body">
 			<h4 class="mb-3">
-				<?=$q['totals']['feedback']?>
+				<?=$q['totals']['users']?>
 				<small>Лидов</small>
 			</h4>
 		</div>
@@ -85,13 +76,13 @@ $q['users'] = mysql_select("
 		<div class="card card-body brands">
 			<h6 class="card-title">5 последних заказов</h6>
 			<div class="list-group list-group-flush">
-				<?php foreach ($q['orders'] as $k=>$v) {?>
+				<?php foreach ($q['users'] as $k=>$v) {?>
 					<div class="list-group-item p-t-b-10 p-l-r-0 d-flex align-items-center justify-content-between">
 						<div class="d-flex align-items-center">
 							<?=$v['email']?>
 						</div>
 						<div class="d-flex align-items-center">
-							<strong class="m-r-20"><?=$v['total']?></strong>
+							<!--<strong class="m-r-20"><?php /*=$v['total']*/?></strong>-->
 						</div>
 					</div>
 				<?php } ?>

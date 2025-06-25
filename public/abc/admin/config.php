@@ -40,54 +40,23 @@ $modules_admin = array(
 		'module'=>'index',
 		'icon'=>'bar-chart-2',
 	),
-	array(
-		'module'=>'pages',
-		'image'=>'sitemap',
-		'icon'=>'git-branch', //layers list package
-	),
-	array(
-		'module'=>'news',
-		'image'=>'news',
-		'icon'=>'tablet', //file
-	),
-	array(
-		'name'=>'gallery',
-		'image'=>'gallery',
-		'icon'=>'image',
-		'module'=>array(
-			array('module'=>'gallery'),
-			array('module'=>'slider'),
-			//'landing'   => 'landing',
-			//'о нас'     => 'landing_items1',
-			//'услуги'    =>'landing_items2',
-			//'стоимости работ' =>'landing_items3'
-		)
-	),
+    array(
+        'name' => 'customers',
+        'image' => 'users',
+        'icon' => 'users',
+        'module' => 'customers',
+    ),
+    array(
+        'name' => 'GTP bots',
+        'image' => 'users',
+        'icon' => 'users',
+        'module' => 'g_p_t_bots',
+    ),
 	array(
 		'module'=>'languages',
 		'name'=>'dictionary',
 		'image'=>'dictionary',
 		'icon'=>'book-open',
-	),
-	array(
-		'module'=>'feedback',
-		'image'=>'feedback',
-		'icon'=>'twitch',
-	),
-	array(
-		'name'=>'catalog',
-		'image'=>'catalog',
-		'icon'=>'package',
-		'module'=>array(
-			array('module'=>'shop_products'),
-			//'shop_products_special'	=> 'shop_products_special',
-			//'shop_items'	=> 'shop_items',
-			array('module'=>'shop_categories'),
-			array('module'=>'shop_brands'),
-			array('module'=>'shop_parameters'),
-			array('module'=>'shop_reviews'),
-			array('module'=>'shop_branches'),
-		)
 	),
 	array(
 		'name'=>'geo',
@@ -119,17 +88,6 @@ $modules_admin = array(
 			//'импорт категорий'=>'shop_categories_import',
 		),
 	),
-	array(
-		'name'=>'shop',
-		'image'=>'shop',
-		'icon'=>'shopping-cart',
-		'module'=>array(
-			array('module'=>'orders'),
-			array('module'=>'order_types'),
-			array('module'=>'order_deliveries'),
-		),
-		//'order_payments'	=> 'order_payments',
-	),
 
 	array(
 		'name'=>'users',
@@ -140,16 +98,6 @@ $modules_admin = array(
 			array('module'=>'user_types',),
 			array('module'=>'user_fields',),
 			array('module'=>'user_socials',),
-		),
-	),
-
-	array(
-		'name'=>'subscribe',
-		'image'=>'subscribe',
-		'icon'=>'mail',//at-sign
-		'module'=>array(
-			array('module'=>'subscribers',),
-			array('module'=>'subscribe_letters',),
 		),
 	),
 
