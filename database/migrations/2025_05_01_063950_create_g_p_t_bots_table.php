@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('g_p_t_bots', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('theme');
             $table->text('prompt');
             $table->string('type');
             $table->timestamps();

@@ -12,7 +12,7 @@ class MessengerMessageData extends Data
         public string           $identifier,
         public string           $text,
         public MessageSources   $source = MessageSources::Telegram,
-        public ?int             $bot = null,
+        public ?int             $bot_id = null,
     )
     {}
 }
