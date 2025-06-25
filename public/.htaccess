@@ -5,6 +5,14 @@
 
     RewriteEngine On
 
+    #правила для abc-cmc
+    RewriteRule ^admin.php$ abc/admin.php [L]
+    RewriteRule ^admin(.*)$ abc/admin$1 [L]
+    RewriteRule ^api(.*)$ abc/api$1 [L]
+    RewriteRule ^plugins(.*)$ abc/plugins$1 [L]
+    RewriteRule ^_/(.*)$ abc/_/$1 [L]
+    RewriteRule ^_imgs/(.*)$ abc/_imgs/$1 [L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

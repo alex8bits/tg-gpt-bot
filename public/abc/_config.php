@@ -1,0 +1,13 @@
+<?php
+$config['sender_name']='abc-cms';
+$config['sender']='ottofonf@gmail.com';
+$config['receiver']='ottofonf@gmail.com,info@devep.ru';
+$config['html_minify']='0';
+$config['open_graph']='0';
+$config['redirects']='0';
+$config['redirect_uppercase']='1';
+$config['https']='0';
+$config['domain_main']='';
+$config['domain_main_redirect']='0';
+$config['dummy']='0';
+$config['uploader']='1';

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->foreignId('gpt_bot_id')->constrained('g_p_t_bots')->cascadeOnDelete();
             $table->string('role');
             $table->text('content');
             $table->timestamps();
