@@ -3,8 +3,6 @@
 namespace App\DTO;
 
 use App\Enums\MessageSources;
-use App\Models\GPTBot;
-use Spatie\LaravelData\Data;
 
 class TelegramMessageData extends MessengerMessageData
 {
@@ -12,14 +10,14 @@ class TelegramMessageData extends MessengerMessageData
         public string           $identifier,
         public string           $text,
         public MessageSources   $source = MessageSources::Telegram,
-        public ?int             $bot = null,
+        public ?int             $bot_id = null,
     )
     {
         parent::__construct(
             $identifier,
             $text,
             $this->source,
-            $this->bot
+            $this->bot_id
         );
     }
 }

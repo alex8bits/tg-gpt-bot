@@ -26,10 +26,10 @@ class StoreMessageListener
      */
     public function handle(MessageReceivedEvent $event): void
     {
-        /** @var Customer $customer */
-        $customer = Customer::firstOrCreate([
+        Customer::firstOrCreate([
             $event->messageData->source->identifierField() => $event->messageData->identifier
         ]);
+        /** @var Customer $customer */
         $customer = Customer::where($event->messageData->source->identifierField(), $event->messageData->identifier)->first();
         Log::debug('store message listener', ['data' => $event->messageData, 'customer' => $customer]);
 
@@ -37,7 +37,7 @@ class StoreMessageListener
             'customer_id' => $customer->refresh()->id,
             'role' => $event->role,
             'content' => $event->messageData->text,
-            'gpt_bot_id' => $event->messageData->bot->id
+            'gpt_bot_id' => $event->messageData->bot_id
         ]);
     }
 }

@@ -4,11 +4,16 @@ namespace App\Services;
 
 use App\DTO\GptMessageData;
 use App\DTO\MessengerMessageData;
+use App\DTO\TelegramMessageData;
+use App\Enums\BotTypes;
 use App\Enums\MessageSources;
+use App\Events\MessageReceivedEvent;
 use App\Models\Customer;
+use App\Models\GPTBot;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class ChatService
 {
@@ -54,8 +59,40 @@ class ChatService
 
         $response = $this->gptService->sendMessages($messages, $prompt);
 
-        //TODO: логика выбора наиболее подходящего ответа
-
         return $response[0];
+    }
+
+    public function selectNextBot()
+    {
+        //TODO: собираем тематики ботов для распределителя и вы бираем следующего в зависисти от ответа пользователя
+    }
+
+    public static function greet($chat_id, MessageSources $source, $gptService)
+    {
+        /** @var GPTBot $greeter */
+        $greeter = GPTBot::whereType(BotTypes::GREETER)->first();
+
+        /** @var Customer $customer */
+        $customer = Customer::firstOrCreate([$source->identifierField() => $chat_id]);
+
+        $messages = [];
+        $messages[] = new GptMessageData('system', $prompt ?? config('open_ai.prompt'));
+
+        $greeting_text = '';
+        if ($customer->name) {
+            $greeting_text .= 'Пользователя зовут ' . $customer->name . '. ';
+        }
+        $greeting_text .= $greeter->prompt;
+        $messages[] = new GptMessageData('user', $greeting_text);
+
+        if (!config('open_ai.enabled')) {
+            return false;
+        }
+
+        $response = $gptService->sendMessages($messages);
+
+        $message = new TelegramMessageData($chat_id, $response[0], MessageSources::Telegram, $greeter->id);
+
+        return $message;
     }
 }

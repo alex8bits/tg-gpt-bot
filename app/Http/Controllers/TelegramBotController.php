@@ -56,12 +56,8 @@ class TelegramBotController extends Controller
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
         MessageReceivedEvent::dispatch($update_message);
 
-        if (Cache::has($update_message->getChat()->id . '_next_bot')) {
-            $next_bot = GPTBot::find(Cache::get($update_message->getChat()->id . '_next_bot'));
-            Cache::forget($update_message->getChat()->id . '_next_bot');
-        } else {
-            $spreader = GPTBot::whereType(BotTypes::SPREADER)->first();
-        }
+        $spreader = GPTBot::whereType(BotTypes::SPREADER)->first();
+        $this->chatService->selectNextBot($message->text);
         //TODO: логика подставления next bot или опредлеления следующего бота по контексту предыдущих сообщений
 
         $response = $this->chatService->sendMessage($message, Cache::get($request->message['from']['id'] . '_prompt'));
