@@ -18,7 +18,7 @@ class GPTBotSeeder extends Seeder
             'type' => BotTypes::WELCOME,
         ], [
             'name' => BotTypes::WELCOME->value,
-            'prompt' => "Поздоровайся с пользователем",
+            'prompt' => "Поздоровайся с пользователем. Можно в контексте ткущего времени. Вопросов не задавай",
         ]);
         GPTBot::firstOrCreate([
             'type' => BotTypes::SPREADER,
