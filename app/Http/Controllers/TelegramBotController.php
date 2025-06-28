@@ -47,26 +47,35 @@ class TelegramBotController extends Controller
         $bot = new Api($token);
         $update = $bot->getWebhookUpdate();
         $update_message = $update->getMessage();
+
+        /** @var Customer $customer */
         $customer = Customer::firstOrCreate([
             'telegram_id' => $update_message->getChat()->id,
         ], [
             'name' => $update_message->getChat()->name,
         ]);
+        $dialog = Cache::get($update_message->getChat()->id . '_dialog');
+
         $current_bot = GPTBot::find(Cache::get($update_message->getChat()->id . '_current_bot')) ?? GPTBot::whereType(BotTypes::WELCOME)->first();
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
-        MessageReceivedEvent::dispatch($update_message);
+        event(new MessageReceivedEvent($message, dialog_id: $dialog));
 
-        $spreader = GPTBot::whereType(BotTypes::SPREADER)->first();
-        $this->chatService->selectNextBot($message->text);
-        //TODO: логика подставления next bot или опредлеления следующего бота по контексту предыдущих сообщений
+        //Оцениваем ответ и выбираем следующего бота
+        $next_bot = $this->chatService->selectNextBot($dialog);
+        if ($next_bot == 0) {
+            //TODO: moderate
+        } elseif ($next_bot != $current_bot->id) {
+            $current_bot = GPTBot::find($next_bot);
+            Cache::put($customer->telegram_id . '_current_bot', $next_bot);
+        }
+        $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->prompt, $dialog, $customer);
 
-        $response = $this->chatService->sendMessage($message, Cache::get($request->message['from']['id'] . '_prompt'));
         if (!$response) {
             return false;
         }
 
         $message = new TelegramMessageData($request->message['from']['id'], $response, MessageSources::Telegram);
-        MessageReceivedEvent::dispatch($message, 'assistant');
+        MessageReceivedEvent::dispatch($message, 'assistant', $dialog);
         $bot->sendMessage([
             'chat_id' => $message->identifier,
             'text' => $response

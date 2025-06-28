@@ -24,4 +24,24 @@ class GPTBot extends Model
     protected $casts = [
         'type' => BotTypes::class
     ];
+
+    public function scopeWelcome($query)
+    {
+        return $query->whereType(BotTypes::WELCOME);
+    }
+
+    public function scopeCommon($query)
+    {
+        return $query->whereType(BotTypes::COMMON);
+    }
+
+    public function scopeSpreader($query)
+    {
+        return $query->whereType(BotTypes::SPREADER);
+    }
+
+    public function scopeModerator($query)
+    {
+        return $query->whereType(BotTypes::MODERATOR);
+    }
 }

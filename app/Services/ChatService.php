@@ -21,17 +21,15 @@ class ChatService
     public function __construct(protected GptServiceInterface $gptService)
     {}
 
-    public function sendMessage(MessengerMessageData $messageData, $prompt = null, $dialog_id = null)
+    public function sendMessage(MessengerMessageData $messageData, GPTBot $bot, $prompt = null, $dialog_id = null, Customer $customer = null)
     {
         if (!config('open_ai.enabled')) {
             return false;
         }
         /** @var Customer $customer */
-        $customer = Customer::firstOrCreate([$messageData->source->identifierField() => $messageData->identifier]);
-        if ($customer->rating < 1) {
-            return false;
-        }
-        $user_messages = $dialog_id ? $customer->messages()->whereDialogId($dialog_id) : $customer->messages;
+        $customer = $customer ?: Customer::firstOrCreate([$messageData->source->identifierField() => $messageData->identifier]);
+        $user_messages = $dialog_id ? $customer->messages()->whereDialogId($dialog_id) : $customer->messages();
+        $user_messages = $user_messages->where('gpt_bot_id', $bot->id)->get();
         $messages = [];
         $messages[] = new GptMessageData('system', $prompt ?? config('open_ai.prompt'));
         /** @var Message $message */
@@ -40,32 +38,25 @@ class ChatService
         }
         $messages[] = new GptMessageData('user', $messageData->text);
 
-        $moderate_messages = $messages;
-        $moderate_messages[] = new GptMessageData('user', 'оцени по шкале от 0 до 10, на сколько предыдущее сообщение соответствовало контексту общения, где 0 - пользователь говорит на другую тему, 10 - он полностью в контексте. Ответ дай в json например: {"score":10}');
-        $moderator_response = $this->gptService->sendMessages($moderate_messages, $prompt);
-        Log::debug('moderator_response', ['response' => $moderator_response]);
-        try {
-            $score = json_decode($moderator_response[0]);
-            if ($score->score < 3) {
-                $customer->decrement('rating');
-                if ($customer->rating === 0) {
-                    return "Извините, больше Вас не обеспокоим";
-                }
-            }
-        } catch (\Exception $e) {
-            Log::warning('could not get score');
-        }
-
-        Log::debug('user rating', ['value' => $customer->rating]);
-
         $response = $this->gptService->sendMessages($messages, $prompt);
 
         return $response[0];
     }
 
-    public function selectNextBot()
+    public function selectNextBot($dialog_id)
     {
-        //TODO: собираем тематики ботов для распределителя и вы бираем следующего в зависисти от ответа пользователя
+        $messagesModel = Message::whereDialogId($dialog_id)->get();
+        $messages = [];
+        foreach ($messagesModel as $item) {
+            $messages[] = GptMessageData::from($item);
+        }
+        $themes = GPTBot::common()->select('id', 'theme')->get();
+        /** @var GPTBot $spreader */
+        $spreader = GPTBot::spreader()->first();
+        $response = $this->gptService->sendMessages($messages, $spreader->prompt . '. Темы: ' . json_encode($themes));
+        $result = json_decode($response[0]);
+
+        return $result->id;
     }
 
     public static function greet($chat_id, MessageSources $source, $gptService)
