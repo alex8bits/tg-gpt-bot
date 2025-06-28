@@ -22,7 +22,7 @@ class DeleteHistoryCommand extends Command
         $chat_id = $update->getMessage()->getChat()->getId();
         $user = Customer::whereTelegramId($chat_id)->first();
         $user?->messages()->delete();
-        $user->update([
+        $user?->update([
             'rating' => config('open_ai.user_context_threshold')
         ]);
 
