@@ -18,7 +18,7 @@ use Telegram\Bot\Objects\CallbackQuery;
 
 class RememberUsCommand extends Command
 {
-    protected string $name = 'random_scenario';
+    protected string $name = 'remember_us';
     protected string $description = 'Помните нас';
 
     public function __construct(protected GptServiceInterface $gptService, protected ChatService $chatService)
