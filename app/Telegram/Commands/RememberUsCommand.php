@@ -6,6 +6,7 @@ use App\DTO\TelegramMessageData;
 use App\Enums\BotTypes;
 use App\Enums\MessageSources;
 use App\Events\MessageReceivedEvent;
+use App\Models\Dialog;
 use App\Models\GPTBot;
 use App\Services\ChatService;
 use App\Services\GptServiceInterface;
@@ -20,7 +21,7 @@ class RememberUsCommand extends Command
     protected string $name = 'random_scenario';
     protected string $description = 'Помните нас';
 
-    public function __construct(protected GptServiceInterface $gptService)
+    public function __construct(protected GptServiceInterface $gptService, protected ChatService $chatService)
     {
     }
 
@@ -28,24 +29,25 @@ class RememberUsCommand extends Command
     {
         $update = $this->getUpdate();
 
-        $id = $update->getMessage()->getChat()->getId();
+        $customer_tg_id = $update->getMessage()->getChat()->getId();
 
-        $message = ChatService::greet($id, MessageSources::Telegram, $this->gptService);
+        $dialog = Dialog::create();
+        Cache::put($customer_tg_id . '_dialog', $dialog->id);
 
-        MessageReceivedEvent::dispatch($message, 'assistant');
+        //Приветствие
+        $greeting = ChatService::greet($customer_tg_id, MessageSources::Telegram, $this->gptService);
+        MessageReceivedEvent::dispatch($greeting, 'assistant', $dialog->id);
+
+        $appeal = ChatService::firstMessage($customer_tg_id, MessageSources::Telegram, $this->gptService);
+        MessageReceivedEvent::dispatch($appeal, 'assistant', $dialog->id);
+
         Telegram::sendMessage([
-            'chat_id' => $message->identifier,
-            'text' => $message->text
+            'chat_id' => $customer_tg_id,
+            'text' => $greeting->text
         ]);
-
-        /** @var GPTBot $bot */
-        $bot = GPTBot::whereType(BotTypes::COMMON)->inRandomOrder()->first();
-        Cache::put($id . '_current_bot', $bot->id);
-
-        $message = new TelegramMessageData($id, $bot->prompt, MessageSources::Telegram, $bot->id);
         Telegram::sendMessage([
-            'chat_id' => $message->identifier,
-            'text' => $message->text
+            'chat_id' => $customer_tg_id,
+            'text' => $appeal->text
         ]);
     }
 }

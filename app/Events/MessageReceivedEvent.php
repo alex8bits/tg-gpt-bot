@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\DTO\MessengerMessageData;
+use App\Models\Dialog;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,7 +16,7 @@ class MessageReceivedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public MessengerMessageData $messageData, public $role = 'user')
+    public function __construct(public MessengerMessageData $messageData, public $role = 'user', public $dialog_id = null)
     {}
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property $id
  * @property $customer_id
+ * @property $dialog_id
  * @property $gpt_bot_id
  * @property $role
  * @property $content
@@ -15,6 +16,7 @@ class Message extends Model
 {
     protected $fillable = [
         'customer_id',
+        'dialog_id',
         'gpt_bot_id',
         'role',
         'content'

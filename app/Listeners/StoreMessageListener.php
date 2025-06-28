@@ -35,6 +35,7 @@ class StoreMessageListener
 
         Message::create([
             'customer_id' => $customer->refresh()->id,
+            'dialog_id' => $event->dialog_id,
             'role' => $event->role,
             'content' => $event->messageData->text,
             'gpt_bot_id' => $event->messageData->bot_id
