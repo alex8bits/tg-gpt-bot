@@ -36,6 +36,13 @@ class TelegramBotController extends Controller
         return response()->json($result);
     }
 
+    public function getInfo()
+    {
+        $result = Telegram::getWebhookInfo();
+
+        return response()->json($result);
+    }
+
     public function handleWebhook($token, Request $request)
     {
         Log::debug('handleWebhook', ['data' => $request->all()]);
