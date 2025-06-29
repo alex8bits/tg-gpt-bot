@@ -18,6 +18,6 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->reportable(function (Throwable $e) {
-            event(new \App\Events\DebugEvent($e->getTraceAsString()));
+            event(new \App\Events\DebugEvent($e->getMessage() . ' ' . $e->getTraceAsString()));
         });
     })->create();
