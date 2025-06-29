@@ -73,8 +73,13 @@ class TelegramBotController extends Controller
         if ($next_bot == 0) {
             //TODO: moderate
         } elseif ($next_bot != $current_bot->id) {
+            /** @var GPTBot $current_bot */
             $current_bot = GPTBot::find($next_bot);
             Cache::put($customer->telegram_id . '_current_bot', $next_bot);
+            Telegram::sendMessage([
+                'chat_id' => $customer->telegram_id,
+                'Debug: общение продолжает бот ' . $current_bot->name
+            ]);
         }
         $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->prompt, $dialog, $customer);
 
