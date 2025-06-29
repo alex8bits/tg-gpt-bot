@@ -63,8 +63,9 @@ class TelegramBotController extends Controller
         ]);
         $dialog = Cache::get($update_message->getChat()->id . '_dialog');
 
-        $current_bot = GPTBot::find(Cache::get($update_message->getChat()->id . '_current_bot')) ?? GPTBot::whereType(BotTypes::WELCOME)->first()->id;
-        $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot);
+        /** @var GPTBot $current_bot */
+        $current_bot = GPTBot::find(Cache::get($update_message->getChat()->id . '_current_bot')) ?? GPTBot::whereType(BotTypes::WELCOME)->first();
+        $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
         event(new MessageReceivedEvent($message, dialog_id: $dialog));
 
         //Оцениваем ответ и выбираем следующего бота
