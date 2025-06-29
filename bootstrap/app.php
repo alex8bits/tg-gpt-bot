@@ -17,5 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->reportable(function (Throwable $e) {
+            event(new \App\Events\DebugEvent($e->getTraceAsString()));
+        });
     })->create();
