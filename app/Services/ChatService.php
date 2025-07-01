@@ -69,7 +69,7 @@ class ChatService
             'messages' => $messages,
         ]);
 
-        return $result->id;
+        return $result?->id;
     }
 
     public static function greet($chat_id, MessageSources $source, $gptService)
