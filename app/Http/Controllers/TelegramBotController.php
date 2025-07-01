@@ -74,7 +74,10 @@ class TelegramBotController extends Controller
                 'text' => 'Debug: Распределитель не определил подходящего бота. За дело берётся модератор'
             ]);
             $response = $this->chatService->moderate($dialog, $update_message->getText());
-
+            Telegram::sendMessage([
+                'chat_id' => $customer->telegram_id,
+                'text' => $response
+            ]);
             return false;
         } elseif ($next_bot != $current_bot->id) {
             /** @var GPTBot $current_bot */
