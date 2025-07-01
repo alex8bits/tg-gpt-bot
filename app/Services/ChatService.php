@@ -53,11 +53,13 @@ class ChatService
         $themes = GPTBot::common()->select('id', 'theme')->get();
         /** @var GPTBot $spreader */
         $spreader = GPTBot::spreader()->first();
-        $response = $this->gptService->sendMessages($messages, $spreader->prompt . '. Темы: ' . json_encode($themes));
+        $prompt = $spreader->prompt . '. Темы: ' . json_encode($themes);
+        $response = $this->gptService->sendMessages($messages, $prompt);
         $result = json_decode($response[0]);
         Log::debug('selectNextBot response', [
             'result' => $result,
             'response' => $response,
+            'prompt' => $prompt,
         ]);
 
         return $result->id;
