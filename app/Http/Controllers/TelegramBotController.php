@@ -66,7 +66,6 @@ class TelegramBotController extends Controller
         /** @var GPTBot $current_bot */
         $current_bot = GPTBot::find(Cache::get($update_message->getChat()->id . '_current_bot')) ?? GPTBot::whereType(BotTypes::WELCOME)->first();
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
-        event(new MessageReceivedEvent($message, dialog_id: $dialog));
 
         //Оцениваем ответ и выбираем следующего бота
         $next_bot = $this->chatService->selectNextBot($dialog);
@@ -86,6 +85,7 @@ class TelegramBotController extends Controller
                 'text' => 'Debug: общение продолжает бот ' . $current_bot->name
             ]);
         }
+        event(new MessageReceivedEvent($message, dialog_id: $dialog));
         $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->prompt, $dialog, $customer);
 
         if (!$response) {
