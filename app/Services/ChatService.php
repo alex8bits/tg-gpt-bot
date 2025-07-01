@@ -53,7 +53,7 @@ class ChatService
         $themes = GPTBot::common()->select('id', 'theme')->get();
         $themes_string = '';
         foreach ($themes as $theme) {
-            $themes_string .= $theme->id . ': ' . $theme->theme;
+            $themes_string .= $theme->id . ': ' . $theme->theme . '. ';
         }
         /** @var GPTBot $spreader */
         $spreader = GPTBot::spreader()->first();
