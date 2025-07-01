@@ -43,13 +43,14 @@ class ChatService
         return $response[0];
     }
 
-    public function selectNextBot($dialog_id)
+    public function selectNextBot($dialog_id, $last_message)
     {
         $messagesModel = Message::whereDialogId($dialog_id)->get();
         $messages = [];
         foreach ($messagesModel as $item) {
             $messages[] = GptMessageData::from($item);
         }
+        $messages[] = new GptMessageData('user', $last_message);
         $themes = GPTBot::common()->select('id', 'theme')->get();
         $themes_string = '';
         foreach ($themes as $theme) {
