@@ -44,12 +44,12 @@ class RememberUsCommand extends Command
             'text' => $greeting->text
         ]);
 
-        $appeal = ChatService::firstMessage($customer_tg_id, MessageSources::Telegram, $this->gptService);
+        /*$appeal = ChatService::firstMessage($customer_tg_id, MessageSources::Telegram, $this->gptService);
         MessageReceivedEvent::dispatch($appeal, 'assistant', $dialog->id);
 
         Telegram::sendMessage([
             'chat_id' => $customer_tg_id,
             'text' => $appeal->text
-        ]);
+        ]);*/
     }
 }
