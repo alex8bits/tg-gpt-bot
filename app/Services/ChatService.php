@@ -51,9 +51,13 @@ class ChatService
             $messages[] = GptMessageData::from($item);
         }
         $themes = GPTBot::common()->select('id', 'theme')->get();
+        $themes_string = '';
+        foreach ($themes as $theme) {
+            $themes_string .= $theme->id . ': ' . $theme->theme;
+        }
         /** @var GPTBot $spreader */
         $spreader = GPTBot::spreader()->first();
-        $prompt = $spreader->prompt . '. Темы: ' . json_encode($themes);
+        $prompt = $spreader->prompt . '. Темы: ' . $themes_string;
         $response = $this->gptService->sendMessages($messages, $prompt);
         $result = json_decode($response[0]);
         Log::debug('selectNextBot response', [
