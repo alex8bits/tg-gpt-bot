@@ -93,7 +93,7 @@ class TelegramBotController extends Controller
         } else {
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
-                'text' => 'Debug: Бот ответил не по заданию. Он сказал: ' . $next_bot,
+                'text' => 'Debug: Распределитель ответил не по заданию. Он сказал: ' . $next_bot,
             ]);
         }
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
