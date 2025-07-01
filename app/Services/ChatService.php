@@ -54,7 +54,7 @@ class ChatService
         $messages[] = new GptMessageData('user', $last_message);
         /** @var GPTBot $moderator */
         $moderator = GPTBot::moderator()->first();
-        $prompt = $moderator->prompt;
+        $prompt = $moderator->getPrompt();
         $response = $this->gptService->sendMessages($messages, $prompt);
         $result = $response[0];
         Log::debug('moderate response', [
@@ -83,7 +83,7 @@ class ChatService
         }
         /** @var GPTBot $spreader */
         $spreader = GPTBot::spreader()->first();
-        $prompt = $spreader->prompt . '. Темы: ' . $themes_string;
+        $prompt = $spreader->getPrompt() . '. Темы: ' . $themes_string;
         $response = $this->gptService->sendMessages($messages, $prompt);
         $result = json_decode($response[0]) ?? $response[0];
         Log::debug('selectNextBot response', [
@@ -112,7 +112,7 @@ class ChatService
         $messages[] = new GptMessageData('system', $prompt ?? config('open_ai.prompt'));
 
         $greeting_text = $customer->name ? 'Пользователя зовут ' . $customer->name . '. ' : '';
-        $greeting_text .= $greeter->prompt;
+        $greeting_text .= $greeter->getPrompt();
         $messages[] = new GptMessageData('user', $greeting_text);
 
         $response = $gptService->sendMessages($messages);
@@ -133,7 +133,7 @@ class ChatService
 
         $messages = [];
         $messages[] = new GptMessageData('system', config('open_ai.prompt'));
-        $messages[] = new GptMessageData('user', $bot->prompt);
+        $messages[] = new GptMessageData('user', $bot->getPrompt());
 
         $response = $gptService->sendMessages($messages);
 

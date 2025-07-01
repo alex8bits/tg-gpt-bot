@@ -98,7 +98,7 @@ class TelegramBotController extends Controller
         }
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
         event(new MessageReceivedEvent($message, dialog_id: $dialog));
-        $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->prompt, $dialog, $customer);
+        $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
 
         if (!$response) {
             return false;

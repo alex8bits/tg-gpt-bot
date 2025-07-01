@@ -27,13 +27,15 @@ class GPTBot extends Model
 
     public function getPrompt()
     {
-        $path = base_path(public_path('abc/files/languages/1/dictionary/common.php'));
+        $path = public_path('abc/files/languages/1/dictionary/common.php');
         if (file_exists($path)) {
             require $path;
-            return $lang['common']['prompt'] ?? '';
+            $prompt = $lang['common']['prompt'] ?? '';
+        } else {
+            $prompt = '';
         }
 
-        return '';
+        return  $this->prompt . '. ' . $prompt;
     }
 
     public function scopeWelcome($query)
