@@ -39,9 +39,9 @@ $query = "
 $filter[] = array('search');
 
 
-$form[] = array('input td4', 'name');
-$form[] = array('input td4', 'theme');
-$form[] = array('select td3', 'type', array(
+$form[] = array('input td6', 'name');
+$form[] = array('select td6', 'type', array(
     'value' => array(true, $types)
 ));
+$form[] = array('input td12', 'theme');
 $form[] = array('textarea td12', 'prompt');

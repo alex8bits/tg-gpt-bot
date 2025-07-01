@@ -52,7 +52,7 @@ $modules_admin = array(
         'icon' => 'users',
         'module' => 'g_p_t_bots',
     ),
-	array(
+	/*array(
 		'module'=>'languages',
 		'name'=>'dictionary',
 		'image'=>'dictionary',
@@ -69,27 +69,6 @@ $modules_admin = array(
 		),
 	),
 	array(
-		'name'=>'synchronization',
-		'image'=>'synchro',
-		'icon'=>'download-cloud',
-		'module'=>array(
-			array(
-				'module'=>'shop_export',
-				'name'=>'export'
-			),
-			array(
-				'module'=>'shop_import',
-				'name'=>'import'
-			),
-			array(
-				'module'=>'shop_upload_images',
-				'name'=>'upload_images'
-			),
-			//'импорт категорий'=>'shop_categories_import',
-		),
-	),
-
-	array(
 		'name'=>'users',
 		'image'=>'users',
 		'icon'=>'users',
@@ -99,9 +78,9 @@ $modules_admin = array(
 			array('module'=>'user_fields',),
 			array('module'=>'user_socials',),
 		),
-	),
+	),*/
 
-	array(
+	/*array(
 		'name'=>'config',
 		'image'=>'settings',
 		'icon'=>'settings',
@@ -112,7 +91,7 @@ $modules_admin = array(
 			array('module'=>'logs',),
 			//array('module'=>'_migrations',),
 		),
-	),
+	),*/
 /*
 	array(
 		'name'=>'design',
@@ -126,7 +105,7 @@ $modules_admin = array(
 		),
 	),
 */
-	$config['style']=='admin/template' ? array(
+	/*$config['style']=='admin/template' ? array(
 		'name'=>'backup',
 		'image'=>'archive',
 		'icon'=>'archive',//download-cloud',
@@ -163,7 +142,7 @@ $modules_admin = array(
 			//'import'		=> 'seo_links_import',
 			//'export'		=> 'seo_links_export',
 		),
-	),
+	),*/
 
 );
 
