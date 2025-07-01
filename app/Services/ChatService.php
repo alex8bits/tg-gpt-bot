@@ -65,6 +65,7 @@ class ChatService
             'result' => $result,
             'response' => $response,
             'prompt' => $prompt,
+            'messages' => $messages,
         ]);
 
         return $result->id;
