@@ -25,6 +25,17 @@ class GPTBot extends Model
         'type' => BotTypes::class
     ];
 
+    public function getPrompt()
+    {
+        $path = base_path(public_path('abc/files/languages/1/dictionary/common.php'));
+        if (file_exists($path)) {
+            require $path;
+            return $lang['common']['prompt'] ?? '';
+        }
+
+        return '';
+    }
+
     public function scopeWelcome($query)
     {
         return $query->whereType(BotTypes::WELCOME);
