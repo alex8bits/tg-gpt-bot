@@ -85,7 +85,7 @@ class ChatService
         $spreader = GPTBot::spreader()->first();
         $prompt = $spreader->prompt . '. Темы: ' . $themes_string;
         $response = $this->gptService->sendMessages($messages, $prompt);
-        $result = json_decode($response[0]);
+        $result = json_decode($response[0]) ?? $response[0];
         Log::debug('selectNextBot response', [
             'result' => $result,
             'response' => $response,
@@ -93,7 +93,7 @@ class ChatService
             'messages' => $messages,
         ]);
 
-        return $result?->id;
+        return $result;
     }
 
     public static function greet($chat_id, MessageSources $source, $gptService)

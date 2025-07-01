@@ -68,10 +68,18 @@ class TelegramBotController extends Controller
 
         //Оцениваем ответ и выбираем следующего бота
         $next_bot = $this->chatService->selectNextBot($dialog, $update_message->getText());
-        if (!$next_bot) {
+        if (isset($next_bot->id) && $next_bot->id > 0) {
+            /** @var GPTBot $current_bot */
+            $current_bot = GPTBot::find($next_bot);
+            Cache::put($customer->telegram_id . '_current_bot', $next_bot);
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
-                'text' => 'Debug: Распределитель не определил подходящего бота. За дело берётся модератор'
+                'text' => 'Debug: Продолжает общение ' . $current_bot->name . '. Раздражение: ' . $next_bot->impatience . '. Общительность: ' . $next_bot->sociability,
+            ]);
+        } elseif (isset($next_bot->id) && $next_bot->id == 0) {
+            Telegram::sendMessage([
+                'chat_id' => $customer->telegram_id,
+                'text' => 'Debug: Тема не определена. Раздражение: ' . $next_bot->impatience . '. Общительность: ' . $next_bot->sociability,
             ]);
             $response = $this->chatService->moderate($dialog, $update_message->getText());
             Telegram::sendMessage([
@@ -79,13 +87,10 @@ class TelegramBotController extends Controller
                 'text' => $response
             ]);
             return false;
-        } elseif ($next_bot != $current_bot->id) {
-            /** @var GPTBot $current_bot */
-            $current_bot = GPTBot::find($next_bot);
-            Cache::put($customer->telegram_id . '_current_bot', $next_bot);
+        } else {
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
-                'text' => 'Debug: общение продолжает бот ' . $current_bot->name
+                'text' => 'Debug: Бот ответил не по заданию. Он сказал: ' . $next_bot,
             ]);
         }
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
