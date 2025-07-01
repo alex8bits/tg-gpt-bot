@@ -71,8 +71,9 @@ class TelegramBotController extends Controller
         if (!$next_bot) {
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
-                'text' => 'Модератор не определил подходящего бота. TODO: сделать с этим что-нибудь'
+                'text' => 'Debug: Распределитель не определил подходящего бота. За дело берётся модератор'
             ]);
+            $response = $this->chatService->moderate($dialog, $update_message->getText());
 
             return false;
         } elseif ($next_bot != $current_bot->id) {

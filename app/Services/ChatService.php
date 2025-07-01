@@ -43,6 +43,30 @@ class ChatService
         return $response[0];
     }
 
+    public function moderate($dialog_id, $last_message)
+    {
+        $messagesModel = Message::whereDialogId($dialog_id)->get();
+        $messages = [];
+        foreach ($messagesModel as $index => $item) {
+            if ($index == 0) continue;
+            $messages[] = GptMessageData::from($item);
+        }
+        $messages[] = new GptMessageData('user', $last_message);
+        /** @var GPTBot $moderator */
+        $moderator = GPTBot::moderator()->first();
+        $prompt = $moderator->prompt;
+        $response = $this->gptService->sendMessages($messages, $prompt);
+        $result = $response[0];
+        Log::debug('moderate response', [
+            'result' => $result,
+            'response' => $response,
+            'prompt' => $prompt,
+            'messages' => $messages,
+        ]);
+
+        return $result;
+    }
+
     public function selectNextBot($dialog_id, $last_message)
     {
         $messagesModel = Message::whereDialogId($dialog_id)->get();
