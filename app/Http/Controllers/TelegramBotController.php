@@ -78,7 +78,7 @@ class TelegramBotController extends Controller
             Cache::put($customer->telegram_id . '_current_bot', $next_bot);
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
-                'Debug: общение продолжает бот ' . $current_bot->name
+                'text' => 'Debug: общение продолжает бот ' . $current_bot->name
             ]);
         }
         $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->prompt, $dialog, $customer);
