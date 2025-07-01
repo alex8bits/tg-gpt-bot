@@ -75,6 +75,8 @@ class TelegramBotController extends Controller
                 'chat_id' => $customer->telegram_id,
                 'text' => 'Модератор не определил подходящего бота. TODO: сделать с этим что-нибудь'
             ]);
+
+            return false;
         } elseif ($next_bot != $current_bot->id) {
             /** @var GPTBot $current_bot */
             $current_bot = GPTBot::find($next_bot);
