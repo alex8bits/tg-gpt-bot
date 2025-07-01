@@ -63,6 +63,7 @@ class TelegramBotController extends Controller
         ]);
         $dialog = Cache::get($update_message->getChat()->id . '_dialog');
 
+        Log::debug(['$update_message->getChat()->id' => $update_message->getChat()->id]);
         /** @var GPTBot $current_bot */
         $current_bot =
             GPTBot::find(Cache::get($update_message->getChat()->id . '_current_bot'))
