@@ -70,7 +70,7 @@ class TelegramBotController extends Controller
         $next_bot = $this->chatService->selectNextBot($dialog, $update_message->getText());
         if (isset($next_bot->id) && $next_bot->id > 0) {
             /** @var GPTBot $current_bot */
-            $current_bot = GPTBot::find($next_bot);
+            $current_bot = GPTBot::find($next_bot->id);
             Cache::put($customer->telegram_id . '_current_bot', $next_bot);
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
