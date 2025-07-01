@@ -63,7 +63,6 @@ class TelegramBotController extends Controller
         ]);
         $dialog = Cache::get($update_message->getChat()->id . '_dialog');
 
-        Log::debug(['$update_message->getChat()->id' => $update_message->getChat()->id]);
         /** @var GPTBot $current_bot */
         $current_bot =
             GPTBot::find(Cache::get($update_message->getChat()->id . '_current_bot'))
@@ -75,7 +74,7 @@ class TelegramBotController extends Controller
         if (isset($next_bot->id) && $next_bot->id > 0) {
             /** @var GPTBot $current_bot */
             $current_bot = GPTBot::find($next_bot->id);
-            Cache::put($customer->telegram_id . '_current_bot', $next_bot);
+            Cache::put($customer->telegram_id . '_current_bot', $next_bot->id);
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
                 'text' => 'Debug: Продолжает общение ' . $current_bot->name . '. Раздражение: ' . $next_bot->impatience . '. Общительность: ' . $next_bot->sociability,
