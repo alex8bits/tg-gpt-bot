@@ -32,11 +32,11 @@ class ChatService
         $user_messages = $user_messages->where('gpt_bot_id', $bot->id)->get();
         $messages = [];
         $messages[] = new GptMessageData('system', $prompt ?? config('open_ai.prompt'));
-        /** @var Message $message */
         foreach ($user_messages as $user_message) {
             $messages[] = new GptMessageData($user_message->role, $user_message->content);
         }
         $messages[] = new GptMessageData('user', $messageData->text);
+        Log::info('messages', ['data' => $messages]);
 
         $response = $this->gptService->sendMessages($messages, $prompt);
 
