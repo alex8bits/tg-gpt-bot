@@ -58,13 +58,13 @@ $modules_admin = array(
         'icon' => 'users',
         'module' => 'messages',
     ),*/
-	/*array(
+	array(
 		'module'=>'languages',
 		'name'=>'dictionary',
 		'image'=>'dictionary',
 		'icon'=>'book-open',
 	),
-	array(
+	/*array(
 		'name'=>'geo',
 		'image'=>'sitemap',
 		'icon'=>'globe',
@@ -73,8 +73,8 @@ $modules_admin = array(
 			array('module'=>'geo_regions'),
 			array('module'=>'geo_countries'),
 		),
-	),
-	array(
+	),*/
+	/*array(
 		'name'=>'users',
 		'image'=>'users',
 		'icon'=>'users',
