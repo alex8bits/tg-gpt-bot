@@ -41,17 +41,23 @@ $modules_admin = array(
 		'icon'=>'bar-chart-2',
 	),
     array(
-        'name' => 'customers',
-        'image' => 'users',
-        'icon' => 'users',
-        'module' => 'customers',
-    ),
-    array(
         'name' => 'GTP bots',
         'image' => 'users',
         'icon' => 'users',
         'module' => 'g_p_t_bots',
     ),
+    array(
+        'name' => 'customers',
+        'image' => 'users',
+        'icon' => 'users',
+        'module' => 'customers',
+    ),
+    /*array(
+        'name' => 'messages',
+        'image' => 'users',
+        'icon' => 'users',
+        'module' => 'messages',
+    ),*/
 	/*array(
 		'module'=>'languages',
 		'name'=>'dictionary',

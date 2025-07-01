@@ -1,8 +1,6 @@
 <?php
 
 //Клиенты
-
-$referrers = mysql_select("SELECT id, telegram_id name FROM customers ORDER BY id", 'array');
 $a18n['name'] = 'Имя';
 
 $table = array(
