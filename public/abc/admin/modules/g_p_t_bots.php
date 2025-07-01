@@ -14,10 +14,10 @@ $table = array(
 );
 
 $types = [
-    'COMMON' => 'обычный',
-    'WELCOME' => 'приветственный',
-    'SPREADER' => 'распределитель',
-    'MODERATOR' => 'модератор',
+    'обычный' => 'обычный',
+    'приветственный' => 'приветственный',
+    'распределитель' => 'распределитель',
+    'модератор' => 'модератор',
 ];
 
 
@@ -44,4 +44,4 @@ $form[] = array('input td4', 'theme');
 $form[] = array('select td3', 'type', array(
     'value' => array(true, $types)
 ));
-$form[] = array('tinymce td12', 'prompt');
+$form[] = array('textarea td12', 'prompt');
