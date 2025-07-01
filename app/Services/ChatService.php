@@ -48,7 +48,7 @@ class ChatService
         $messagesModel = Message::whereDialogId($dialog_id)->get();
         $messages = [];
         foreach ($messagesModel as $index => $item) {
-            if ($item == 0) continue;
+            if ($index == 0) continue;
             $messages[] = GptMessageData::from($item);
         }
         $messages[] = new GptMessageData('user', $last_message);
