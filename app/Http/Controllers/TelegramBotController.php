@@ -71,7 +71,10 @@ class TelegramBotController extends Controller
         //Оцениваем ответ и выбираем следующего бота
         $next_bot = $this->chatService->selectNextBot($dialog);
         if ($next_bot == 0) {
-            //TODO: moderate
+            Telegram::sendMessage([
+                'chat_id' => $customer->telegram_id,
+                'text' => 'Подходящий бот не определён. TODO: сделать с этим что-нибудь'
+            ]);
         } elseif ($next_bot != $current_bot->id) {
             /** @var GPTBot $current_bot */
             $current_bot = GPTBot::find($next_bot);
