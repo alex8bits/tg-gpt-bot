@@ -27,6 +27,7 @@ class RememberUsCommand extends Command
 
     public function handle()
     {
+        Cache::flush();
         $update = $this->getUpdate();
 
         $customer_tg_id = $update->getMessage()->getChat()->getId();
