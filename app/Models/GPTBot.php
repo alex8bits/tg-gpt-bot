@@ -27,7 +27,8 @@ class GPTBot extends Model
 
     public function getPrompt()
     {
-        $path = public_path('abc/files/languages/1/dictionary/common.php');
+        return $this->prompt;
+        /*$path = public_path('abc/files/languages/1/dictionary/common.php');
         if (file_exists($path)) {
             require $path;
             $prompt = $lang['common']['prompt'] ?? '';
@@ -35,7 +36,7 @@ class GPTBot extends Model
             $prompt = '';
         }
 
-        return  $this->prompt . '. ' . $prompt;
+        return  $this->prompt . '. ' . $prompt;*/
     }
 
     public function scopeWelcome($query)
