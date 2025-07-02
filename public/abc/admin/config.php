@@ -64,6 +64,7 @@ $modules_admin = array(
 		'image'=>'dictionary',
 		'icon'=>'book-open',
 	),
+
 	/*array(
 		'name'=>'geo',
 		'image'=>'sitemap',
