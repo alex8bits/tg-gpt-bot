@@ -82,8 +82,8 @@ $modules_admin = array(
 		'module'=>array(
 			array('module'=>'users',),
 			array('module'=>'user_types',),
-			array('module'=>'user_fields',),
-			array('module'=>'user_socials',),
+			/*array('module'=>'user_fields',),
+			array('module'=>'user_socials',),*/
 		),
 	),
 
