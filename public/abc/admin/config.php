@@ -75,7 +75,7 @@ $modules_admin = array(
 			array('module'=>'geo_countries'),
 		),
 	),*/
-	/*array(
+	array(
 		'name'=>'users',
 		'image'=>'users',
 		'icon'=>'users',
@@ -85,7 +85,7 @@ $modules_admin = array(
 			array('module'=>'user_fields',),
 			array('module'=>'user_socials',),
 		),
-	),*/
+	),
 
 	/*array(
 		'name'=>'config',
