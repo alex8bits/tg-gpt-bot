@@ -148,7 +148,7 @@ $tabs = array(
     0 => 'Общее',
 );
 
-$form[0][] = lang_form('input td12','common|prompt','Промт');
+$form[0][] = lang_form('textarea td12','common|prompt','Промт');
 
 
 //v1.4.45 - правки в карты

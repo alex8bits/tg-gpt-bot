@@ -6,6 +6,7 @@ $a18n['name'] = 'Имя';
 $table = array(
     'id' => 'id:desc',
     'customer_id' => '',
+    'dialog_id' => '',
     'g_p_t_bot_id' => '',
     'content' => '',
     'role' => '',
@@ -19,7 +20,8 @@ if (isset($get['search']) && $get['search'] != '') {
     $where .= "
         AND (
             LOWER(customers.telegram_id) LIKE '%$search%' OR
-            LOWER(customers.name) LIKE '%$search%'
+            LOWER(customers.name) LIKE '%$search%' OR
+
         )
     ";
 }

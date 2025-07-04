@@ -8,6 +8,7 @@ $table = array(
     'telegram_id' => '',
     'name' => '',
     'rating' => '',
+    //'messages' => '<a href="/admin.php?m=messages&customer_id={id}">Сообщения</a>'
 );
 
 
