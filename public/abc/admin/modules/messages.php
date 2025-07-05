@@ -1,13 +1,17 @@
 <?php
 
 //Сообщения
-$a18n['name'] = 'Имя';
+$a18n['customer_id'] = 'Клиент';
+$a18n['dialog_id'] = 'Номер диалога';
+$a18n['gpt_bot_id'] = 'Номер бота';
+$a18n['content'] = 'Текст';
+$a18n['role'] = 'Роль';
 
 $table = array(
     'id' => 'id:desc',
     'customer_id' => '',
     'dialog_id' => '',
-    'g_p_t_bot_id' => '',
+    'gpt_bot_id' => '',
     'content' => '',
     'role' => '',
     'created_at' => 'date'
@@ -15,19 +19,14 @@ $table = array(
 
 
 $where = "";
-if (isset($get['search']) && $get['search'] != '') {
-    $search = mysql_res(mb_strtolower($get['search'], 'UTF-8'));
+if (isset($get['customer_id']) && $get['customer_id'] != '') {
     $where .= "
-        AND (
-            LOWER(customers.telegram_id) LIKE '%$search%' OR
-            LOWER(customers.name) LIKE '%$search%' OR
-
-        )
+        AND customer_id = " . $get['customer_id'] . "
     ";
 }
 
 $query = "
-	SELECT * FROM customers
+	SELECT * FROM messages
 	WHERE 1 " . $where;
 
 $filter[] = array('search');

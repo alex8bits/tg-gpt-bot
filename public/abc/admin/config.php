@@ -52,12 +52,12 @@ $modules_admin = array(
         'icon' => 'users',
         'module' => 'customers',
     ),
-    /*array(
+    array(
         'name' => 'messages',
         'image' => 'users',
         'icon' => 'users',
         'module' => 'messages',
-    ),*/
+    ),
 	array(
 		'module'=>'languages',
 		'name'=>'dictionary',
