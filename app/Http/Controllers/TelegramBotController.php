@@ -115,6 +115,7 @@ class TelegramBotController extends Controller
         //Работа с претензией
         if ($current_bot->type == BotTypes::FEEDBACK) {
             $feedback_response = $this->chatService->sendMessage($current_bot->system_request, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
+            Log::debug('$feedback_response', ['data' => $feedback_response]);
             if (json_decode($feedback_response)) {
                 $feedback_response = json_decode($feedback_response);
                 if ($feedback_response->claim === 0) {
