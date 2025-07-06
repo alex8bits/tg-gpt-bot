@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $name
  * @property $theme
  * @property $prompt
+ * @property $system_request
  * @property $type
  */
 class GPTBot extends Model
@@ -18,6 +19,7 @@ class GPTBot extends Model
         'name',
         'theme',
         'prompt',
+        'system_request',
         'type',
     ];
 
@@ -45,7 +47,7 @@ class GPTBot extends Model
 
     public function scopeCommon($query)
     {
-        return $query->whereType(BotTypes::COMMON);
+        return $query->whereIn('type', [BotTypes::COMMON, BotTypes::FEEDBACK]);
     }
 
     public function scopeSpreader($query)

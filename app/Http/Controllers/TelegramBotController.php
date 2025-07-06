@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\DTO\CustomerData;
 use App\DTO\TelegramMessageData;
 use App\Enums\BotTypes;
+use App\Enums\FeedbackStates;
 use App\Enums\MessageSources;
 use App\Events\MessageReceivedEvent;
 use App\Models\Customer;
+use App\Models\Feedback;
 use App\Models\GPTBot;
 use App\Services\ChatService;
 use App\Services\GptServiceInterface;
@@ -99,6 +101,29 @@ class TelegramBotController extends Controller
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
         event(new MessageReceivedEvent($message, dialog_id: $dialog));
         $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
+        //Работа с претензией
+        if ($current_bot->type == BotTypes::FEEDBACK) {
+            $feedback_response = $this->chatService->sendMessage($current_bot->system_request, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
+            if (json_decode($feedback_response)) {
+                $feedback_response = json_decode($feedback_response);
+                if ($feedback_response->claim === 0) {
+                    $result = 'Не удалось понять суть претензии';
+                } elseif ($feedback_response->claim === 1) {
+                    $result = 'Требуется уточнить суть претензии';
+                } elseif ($feedback_response->claim === 2) {
+                    $result = 'Cуть претензии ясна. ' . $feedback_response->text;
+                    Feedback::create([
+                        'customer_id' => $customer->id,
+                        'text' => $feedback_response->text,
+                        'status' => FeedbackStates::NEW,
+                    ]);
+                }
+                Telegram::sendMessage([
+                    'chat_id' => $customer->telegram_id,
+                    'text' => 'Debug: обработка претензии. ' . $result,
+                ]);
+            }
+        }
 
         if (!$response) {
             return false;
