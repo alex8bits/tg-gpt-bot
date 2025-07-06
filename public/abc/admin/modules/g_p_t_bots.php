@@ -18,6 +18,7 @@ $types = [
     'приветственный' => 'приветственный',
     'распределитель' => 'распределитель',
     'модератор' => 'модератор',
+    'приём претензий' => 'приём претензий',
 ];
 
 
@@ -26,8 +27,8 @@ if (isset($get['search']) && $get['search'] != '') {
     $search = mysql_res(mb_strtolower($get['search'], 'UTF-8'));
     $where .= "
         AND (
-            LOWER(customers.telegram_id) LIKE '%$search%' OR
-            LOWER(customers.name) LIKE '%$search%'
+            LOWER(g_p_t_bots.name) LIKE '%$search%' OR
+            LOWER(g_p_t_bots.theme) LIKE '%$search%'
         )
     ";
 }
