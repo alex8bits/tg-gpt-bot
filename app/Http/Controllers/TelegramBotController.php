@@ -101,6 +101,17 @@ class TelegramBotController extends Controller
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
         event(new MessageReceivedEvent($message, dialog_id: $dialog));
         $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
+
+        if (!$response) {
+            return false;
+        }
+
+        $message = new TelegramMessageData($request->message['from']['id'], $response, MessageSources::Telegram, $current_bot->id);
+        MessageReceivedEvent::dispatch($message, 'assistant', $dialog);
+        $bot->sendMessage([
+            'chat_id' => $message->identifier,
+            'text' => $response
+        ]);
         //Работа с претензией
         if ($current_bot->type == BotTypes::FEEDBACK) {
             $feedback_response = $this->chatService->sendMessage($current_bot->system_request, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
@@ -124,16 +135,5 @@ class TelegramBotController extends Controller
                 ]);
             }
         }
-
-        if (!$response) {
-            return false;
-        }
-
-        $message = new TelegramMessageData($request->message['from']['id'], $response, MessageSources::Telegram, $current_bot->id);
-        MessageReceivedEvent::dispatch($message, 'assistant', $dialog);
-        $bot->sendMessage([
-            'chat_id' => $message->identifier,
-            'text' => $response
-        ]);
     }
 }
