@@ -5,6 +5,7 @@
 $referrers = mysql_select("SELECT id, name, theme, prompt, type FROM g_p_t_bots ORDER BY id", 'array');
 $a18n['theme'] = 'Тема';
 $a18n['type'] = 'Тип';
+$a18n['system_request'] = 'Системный запрос';
 
 $table = array(
     'id' => 'id:desc',
@@ -46,3 +47,4 @@ $form[] = array('select td6', 'type', array(
 ));
 $form[] = array('input td12', 'theme');
 $form[] = array('textarea td12', 'prompt');
+$form[] = array('textarea td12', 'system_request');
