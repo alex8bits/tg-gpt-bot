@@ -107,7 +107,7 @@ class TelegramBotController extends Controller
         }
 
         $message = new TelegramMessageData($request->message['from']['id'], $response, MessageSources::Telegram, $current_bot->id);
-        MessageReceivedEvent::dispatch($message, 'assistant', $dialog);
+        event(new MessageReceivedEvent($message, 'assistant', $dialog));
         $bot->sendMessage([
             'chat_id' => $message->identifier,
             'text' => $response
