@@ -1,55 +1,56 @@
 <?php
 
 //обратная связь
-/**
- * v1.2.21 - добавил language;
- * v1.4.17 - сокращение параметров form
- * v1.4.48 - удалил дату
- */
 
-$a18n['display'] = 'просмотрено';
-$a18n['name'] = 'имя';
-$a18n['page'] = 'страница';
-$a18n['page_name'] = 'название страницы';
-$a18n['page_url'] = 'урл страницы';
+$customers = mysql_select("SELECT id, name, telegram_id FROM customers ORDER BY name", 'array');
+$a18n['status'] = 'статус';
+
+$statuses = [
+    'новая' => 'новая',
+    'в обработке' => 'в обработке',
+    'закрыта' => 'закрыта',
+];
 
 $table = array(
-	'_edit'=>'edit',//только редактирование
-	'id'		=>	'id:desc name email created_at',
-	'name'		=>	'',
-	'email'		=>	'',
-	'page'      =>  '<a target="_blank" href="{page_url}">{page_name}</a>',
-	'created_at'	=>	'date_smart',
-	'language'  =>  '',
-	'display'   =>  'display'
+    'id' => 'id:desc',
+    'customer_id' => '',
+    'status' => '',
+    'text' => '',
+    'created_at' => 'date'
 );
-//v1.2.21
-if ($config['multilingual']) $table['language'] = $languages;
-else unset($table['language']);
 
 $filter[] = array('search');
+$filter[] = array('status',$statuses,NULL,true);
+$filter[] = array('date_from');
+$filter[] = array('date_to');
 
 $where = '';
+
 if (isset($get['search']) && $get['search']!='') $where.= "
 	AND (
-		LOWER(feedback.name) like '%".mysql_res(mb_strtolower($get['search'],'UTF-8'))."%'
-		OR LOWER(feedback.email) like '%".mysql_res(mb_strtolower($get['search'],'UTF-8'))."%'
-		OR LOWER(feedback.text) like '%".mysql_res(mb_strtolower($get['search'],'UTF-8'))."%'
+		LOWER(feedback.text) like '%".mysql_res(mb_strtolower($get['search'],'UTF-8'))."%'
 	)
 ";
+if (isset($get['status']) && $get['status']!='') $where.= "
+	AND (
+		LOWER(feedback.status) like '%".mysql_res(mb_strtolower($get['status'],'UTF-8'))."%'
+	)
+";
+if (@$_GET['date_from']) {
+    $where.= " AND created_at>='".mysql_res($_GET['date_from'])."'";
+}
+if (@$_GET['date_to']) {
+    $where.= " AND created_at<='".mysql_res($_GET['date_to'])."'";
+}
 
-$query = "SELECT * FROM feedback WHERE 1 $where";
+$query = "
+	SELECT * FROM feedback
+	WHERE 1 " . $where;
 
-$form[] = array('input td4','name');
-$form[] = array('input td4','email');
-$form[] = array('text td2','created_at');
-$form[] = array('checkbox','display');
-$form[] = array('input td6','page_name');
-$form[] = array('input td6','page_url');
-$form[] = array('textarea td12','text');
-$form[] = array('textarea td12','comment');
-
-$form[] = array('file_multi','files',array(
-	'name'=>'файлы',
-	'fields'=>array('name'=>'input')
+$form[] = array('select td6', 'customer_id', array(
+    'value' => array(true, $customers)
 ));
+$form[] = array('select td6', 'status', array(
+    'value' => array(true, $statuses)
+));
+$form[] = array('textarea td12', 'text');

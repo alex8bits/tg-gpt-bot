@@ -58,6 +58,12 @@ $modules_admin = array(
         'icon' => 'users',
         'module' => 'messages',
     ),
+    array(
+        'name' => 'feedback',
+        'image' => 'users',
+        'icon' => 'users',
+        'module' => 'feedback',
+    ),
 	array(
 		'module'=>'languages',
 		'name'=>'dictionary',
