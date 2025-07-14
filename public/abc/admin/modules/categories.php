@@ -1,8 +1,8 @@
 <?php
 
 $table = array(
-    'id' => '',
-    'name' => 'name:asc'
+    'id' => 'name:asc id',
+    'name' => ''
 );
 
 $filter[] = array('search');
