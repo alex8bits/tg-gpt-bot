@@ -37,7 +37,7 @@ class GPTBot extends Model
             $prompt = '';
         }
 
-        return $prompt . '. ' . $this->prompt;
+        return  $this->prompt . '. ' . $prompt;
     }
 
     public function scopeWelcome($query)
