@@ -10,7 +10,7 @@ $a18n['system_request'] = 'Системный запрос';
 
 $table = array(
     'id' => 'id:desc',
-    'category_id' => 'category:desc',
+    'category_id' => $categories,
     'name' => '',
     'theme' => '',
     'type' => ''
