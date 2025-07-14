@@ -41,6 +41,12 @@ $modules_admin = array(
 		'icon'=>'bar-chart-2',
 	),
     array(
+        'name' => 'Категории ботов',
+        'image' => 'users',
+        'icon' => 'users',
+        'module' => 'categories',
+    ),
+    array(
         'name' => 'GTP bots',
         'image' => 'users',
         'icon' => 'users',

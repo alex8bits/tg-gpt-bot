@@ -7,13 +7,15 @@ $categories = mysql_select("SELECT id, name FROM categories ORDER BY id", 'array
 $a18n['theme'] = 'Ключевые слова';
 $a18n['type'] = 'Тип';
 $a18n['system_request'] = 'Системный запрос';
+$a18n['category_id'] = 'Категория';
 
 $table = array(
-    'id' => 'id:desc',
+    'id' => 'rank id:desc',
     'category_id' => $categories,
     'name' => '',
     'theme' => '',
-    'type' => ''
+    'type' => '',
+    'rank' => ''
 );
 
 $types = [
@@ -24,7 +26,8 @@ $types = [
     'приём претензий' => 'приём претензий',
 ];
 
-
+$filter[] = array('search');
+$filter[] = array('category_id', $categories, NULL);
 $where = "";
 if (isset($get['search']) && $get['search'] != '') {
     $search = mysql_res(mb_strtolower($get['search'], 'UTF-8'));
@@ -36,8 +39,6 @@ if (isset($get['search']) && $get['search'] != '') {
     ";
 }
 
-
-$filter[] = array('category_id', $categories, NULL, true);
 
 if (@$_GET['category_id']) $where.= " AND g_p_t_bots.category_id=".intval($_GET['category_id']);
 
@@ -54,5 +55,5 @@ $form[] = array('select td4', 'category_id', array(
     'value' => array(true, $categories)
 ));
 $form[] = array('textarea td12', 'theme');
-$form[] = array('textarea td12', 'prompt', array('attr' => 'style="height:300px"',));
+$form[] = array('textarea td12', 'prompt', array('attr' => 'style="height:300px!important"'));
 $form[] = array('textarea td12', 'system_request');
