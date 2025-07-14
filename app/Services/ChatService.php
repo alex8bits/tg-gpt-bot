@@ -26,10 +26,11 @@ class ChatService
         if (!config('open_ai.enabled')) {
             return false;
         }
+        $welcome = GPTBot::whereType(BotTypes::WELCOME)->first()?->id;
         /** @var Customer $customer */
         $customer = $customer ?: Customer::firstOrCreate([$messageData->source->identifierField() => $messageData->identifier]);
         $user_messages = $dialog_id ? $customer->messages()->whereDialogId($dialog_id) : $customer->messages();
-        $user_messages = $user_messages->where('gpt_bot_id', $bot->id)->get();
+        $user_messages = $user_messages->whereIn('gpt_bot_id', [$welcome, $bot->id])->get();
         $messages = [];
         $messages[] = new GptMessageData('system', $prompt ?? config('open_ai.prompt'));
         foreach ($user_messages as $user_message) {

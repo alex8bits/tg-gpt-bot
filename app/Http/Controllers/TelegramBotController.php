@@ -9,6 +9,7 @@ use App\Enums\FeedbackStates;
 use App\Enums\MessageSources;
 use App\Events\MessageReceivedEvent;
 use App\Models\Customer;
+use App\Models\Dialog;
 use App\Models\Feedback;
 use App\Models\GPTBot;
 use App\Services\ChatService;
@@ -68,6 +69,11 @@ class TelegramBotController extends Controller
             'name' => $update_message->getChat()->name,
         ]);
         $dialog = Cache::get($update_message->getChat()->id . '_dialog');
+        if (!$dialog) {
+            $dialog = Dialog::create();
+            Cache::put($update_message->getChat()->id . '_dialog', $dialog->id);
+            $dialog = $dialog->id;
+        }
 
         /** @var GPTBot $current_bot */
         $current_bot =
