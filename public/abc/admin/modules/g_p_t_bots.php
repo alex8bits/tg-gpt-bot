@@ -39,7 +39,7 @@ if (isset($get['search']) && $get['search'] != '') {
 
 $filter[] = array('category_id', $categories, NULL, true);
 
-if (@$_GET['country']) $where.= " AND g_p_t_bots.category_id=".intval($_GET['category_id']);
+if (@$_GET['category_id']) $where.= " AND g_p_t_bots.category_id=".intval($_GET['category_id']);
 
 $query = "
 	SELECT * FROM g_p_t_bots
