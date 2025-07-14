@@ -57,6 +57,9 @@ class TelegramBotController extends Controller
         $update = $bot->getWebhookUpdate();
         $update_message = $update->getMessage();
         Log::debug('$update_message', ['$update_message' => $update_message]);
+        if (!$update_message->getText()) {
+            return false;
+        }
 
         /** @var Customer $customer */
         $customer = Customer::firstOrCreate([
