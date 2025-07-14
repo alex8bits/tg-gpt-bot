@@ -110,7 +110,7 @@ class TelegramBotController extends Controller
             return false;
         }
 
-        $message = new TelegramMessageData($request->message['from']['id'], $response, MessageSources::Telegram, $current_bot->id);
+        $message = new TelegramMessageData($update_message->getChat()->id, $response, MessageSources::Telegram, $current_bot->id);
         event(new MessageReceivedEvent($message, 'assistant', $dialog));
         $bot->sendMessage([
             'chat_id' => $message->identifier,
@@ -118,7 +118,7 @@ class TelegramBotController extends Controller
         ]);
         //Работа с претензией
         if ($current_bot->type == BotTypes::FEEDBACK) {
-            $message = new TelegramMessageData($request->message['from']['id'], $current_bot->system_request, MessageSources::Telegram, $current_bot->id);
+            $message = new TelegramMessageData($update_message->getChat()->id, $current_bot->system_request, MessageSources::Telegram, $current_bot->id);
             $feedback_response = $this->chatService->sendMessage($message, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
             Log::debug('$feedback_response', ['data' => $feedback_response]);
             if (json_decode($feedback_response)) {
