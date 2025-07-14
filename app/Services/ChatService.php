@@ -67,7 +67,7 @@ class ChatService
         return $result;
     }
 
-    public function selectNextBot($dialog_id, $last_message)
+    public function selectNextBot($dialog_id, $last_message = null)
     {
         $messagesModel = Message::whereDialogId($dialog_id)->get();
         $messages = [];
