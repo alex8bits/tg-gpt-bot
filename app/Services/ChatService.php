@@ -70,7 +70,7 @@ class ChatService
 
     public function selectNextBot($dialog_id, $last_message = null)
     {
-        $messagesModel = Message::whereDialogId($dialog_id)->get();
+        $messagesModel = Message::whereDialogId($dialog_id)->latest()->limit(5)->get();
         $messages = [];
         foreach ($messagesModel as $index => $item) {
             if ($index == 0) continue;
