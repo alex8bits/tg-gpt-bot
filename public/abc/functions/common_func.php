@@ -122,9 +122,9 @@ function geo_data ($ip,$level=3) {
 			$data['geo'] = $supex_geo;
 			//1. выбираем страну
 			$data['country'] = mysql_select("
-				SELECT * FROM geo_countries 
+				SELECT * FROM geo_countries
 				WHERE iso='" . $supex_geo['country']['iso'] . "'
-				ORDER BY rank DESC,name LIMIT 1
+				ORDER BY `rank` DESC,name LIMIT 1
 			", 'row');
 
 			//2. добавляем страну
@@ -161,11 +161,11 @@ function geo_data ($ip,$level=3) {
 			if ($supex_geo['region'] AND $data['country']['display'] == 1 AND $level > 1) {
 				//1. выбираем регион
 				$data['region'] = mysql_select("
-					SELECT * FROM geo_regions 
+					SELECT * FROM geo_regions
 					WHERE iso='" . $supex_geo['region']['iso'] . "'
 						OR uid = '" . $supex_geo['region']['id'] . "'
 						OR LOWER(name) = '" . mysql_res(mb_strtolower($supex_geo['region']['name_ru'], 'UTF-8')) . "'
-					ORDER BY rank DESC,name LIMIT 1
+					ORDER BY `rank` DESC,name LIMIT 1
 				", 'row');
 
 				//2. добавляем регион
@@ -200,10 +200,10 @@ function geo_data ($ip,$level=3) {
 				if ($supex_geo['city'] AND $data['region']['display'] == 1 AND $level > 2) {
 					//1. выбираем город
 					$data['city'] = mysql_select("
-						SELECT * FROM geo_cities 
+						SELECT * FROM geo_cities
 						WHERE uid='" . $supex_geo['city']['id'] . "'
 							OR LOWER(name) = '" . mysql_res(mb_strtolower($supex_geo['city']['name_ru'], 'UTF-8')) . "'
-						ORDER BY rank DESC,name LIMIT 1
+						ORDER BY `rank` DESC,name LIMIT 1
 					", 'row');
 
 					//2. добавляем город
@@ -251,23 +251,23 @@ function geo_data ($ip,$level=3) {
 		//если не определило, берем по дефолту
 		if ($data['country'] == false) {
 			$data['country'] = mysql_select("
-				SELECT * FROM geo_countries 
+				SELECT * FROM geo_countries
 				WHERE display=1
-				ORDER BY rank DESC,name LIMIT 1
+				ORDER BY `rank` DESC,name LIMIT 1
 			", 'row');
 		}
 		if ($level > 1 AND $data['region'] == false AND $data['country']) {
 			$data['region'] = mysql_select("
-				SELECT * FROM geo_regions 
+				SELECT * FROM geo_regions
 				WHERE country=" . $data['country']['id'] . " AND display=1
-				ORDER BY rank DESC,name LIMIT 1
+				ORDER BY `rank` DESC,name LIMIT 1
 			", 'row');
 		}
 		if ($level > 2 AND $data['city'] == false AND $data['region']) {
 			$data['city'] = mysql_select("
-				SELECT * FROM geo_cities 
+				SELECT * FROM geo_cities
 				WHERE region=" . $data['region']['id'] . " AND display=1
-				ORDER BY rank DESC,name LIMIT 1
+				ORDER BY `rank` DESC,name LIMIT 1
 			", 'row');
 		}
 		$_SESSION['geo'] = $data;

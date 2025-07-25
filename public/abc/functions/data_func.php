@@ -6,7 +6,7 @@ if (empty($abc)) $abc = array();
 
 //язки
 if ($config['multilingual']) {
-	$abc['languages'] = mysql_select("SELECT id,url,name FROM languages WHERE display=1 ORDER BY rank DESC", 'rows');
+	$abc['languages'] = mysql_select("SELECT id,url,name FROM languages WHERE display=1 ORDER BY `rank` DESC", 'rows');
 }
 
 //меню сайта

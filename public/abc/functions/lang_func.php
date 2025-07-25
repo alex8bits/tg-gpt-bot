@@ -23,7 +23,7 @@ function lang($str=false,$type='id') {
 	}
 	//язык должен быть всегда
 	if ($lang==false) {
-		$lang = mysql_select("SELECT * FROM languages WHERE display=1 ORDER BY rank DESC LIMIT 1", 'row', 60 * 60);
+		$lang = mysql_select("SELECT * FROM languages WHERE display=1 ORDER BY `rank` DESC LIMIT 1", 'row', 60 * 60);
 	}
 	//i для основного языка будет пустым, а для второстепенного числом
 	$lang['i'] = $lang['id']!=1 ? $lang['id'] : '';
