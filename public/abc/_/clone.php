@@ -37,10 +37,10 @@ include_once (ROOT_DIR.'admin/config_multilingual.php');
 
 //все дополнительные языки
 $languages = mysql_select("
-	SELECT * 
-	FROM languages 
-	WHERE id IN (".$paste.") 
-	ORDER BY rank DESC
+	SELECT *
+	FROM languages
+	WHERE id IN (".$paste.")
+	ORDER BY `rank` DESC
 ",'rows_id');
 
 foreach ($languages as $l) {

@@ -7,7 +7,7 @@ $data = mysql_select("
 	SELECT *
 	FROM user_fields
 	WHERE display = 1
-	ORDER BY rank DESC
+	ORDER BY `rank` DESC
 ",'rows',60*60*24);
 if (is_array($data)) foreach($data as $key=>$f) {
 	$f['name'] = $f['name'.$lang['i']];

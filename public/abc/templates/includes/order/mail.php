@@ -68,7 +68,7 @@ foreach ($basket['products'] as $k=>$v) {
 </tr>
 <?php
 if (is_array($basket['user'])) {
-	if ($fields = mysql_select("SELECT * FROM user_fields WHERE display = 1 ORDER BY rank DESC",'rows')) {
+	if ($fields = mysql_select("SELECT * FROM user_fields WHERE display = 1 ORDER BY `rank` DESC",'rows')) {
 		foreach ($fields as $f) if (isset($basket['user'][$f['id']])) {
 			?>
 <tr>

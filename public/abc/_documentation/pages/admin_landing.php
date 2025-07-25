@@ -44,7 +44,7 @@ $query = "
 	SELECT *
 	FROM landing
 	WHERE display = 1
-	ORDER BY rank DESC
+	ORDER BY `rank` DESC
 ";
 $html['content'] = html_query ('landing/landing',$query);
 </pre>

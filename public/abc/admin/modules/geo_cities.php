@@ -9,7 +9,7 @@ $a18n['name2'] = 'name';
 $countries = mysql_select("
 	SELECT id, name
 	FROM geo_countries
-	ORDER BY rank DESC,name
+	ORDER BY `rank` DESC,name
 ","array");
 $regions = array();
 if (@$_GET['country'] OR @$post['country']) {
@@ -20,7 +20,7 @@ $regions = mysql_select("
 	SELECT id, name
 	FROM geo_regions
 	WHERE country=" . $country . "
-	ORDER BY rank DESC,name
+	ORDER BY `rank` DESC,name
 ", "array");
 
 
@@ -86,5 +86,5 @@ document.addEventListener("DOMContentLoaded", function () {
 		);
 		return false;
 	});
-})	
+})
 </script>';

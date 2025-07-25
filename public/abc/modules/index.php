@@ -11,7 +11,7 @@ if ($u[1]) {
 $abc['breadcrumb'] = array();
 
 //слайдер
-$abc['slider'] = mysql_select("SELECT * FROM slider WHERE display=1 ORDER BY rank DESC",'rows',60*60);
+$abc['slider'] = mysql_select("SELECT * FROM slider WHERE display=1 ORDER BY `rank` DESC",'rows',60*60);
 
 //важные товары
 $abc['products_index'] = mysql_select("
@@ -29,7 +29,7 @@ $query = "
 	SELECT *
 	FROM landing
 	WHERE display = 1
-	ORDER BY rank DESC
+	ORDER BY `rank` DESC
 ";
 $html['content'] = html_query ('landing/landing',$query);
  */

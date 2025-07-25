@@ -33,7 +33,7 @@ $table = array(
 $table_count = count($table);
 
 //добавляем динамические параметры у которых стоит галочка синхронизация
-if ($shop_parameters = mysql_select("SELECT * FROM shop_parameters WHERE import=1 ORDER BY rank DESC,id",'rows_id')) {
+if ($shop_parameters = mysql_select("SELECT * FROM shop_parameters WHERE import=1 ORDER BY `rank` DESC,id",'rows_id')) {
 	foreach ($shop_parameters as $k => $v) {
 		$table[] = 'p' . $v['id'];
 		$a18n['p' . $v['id']] = $v['name'];

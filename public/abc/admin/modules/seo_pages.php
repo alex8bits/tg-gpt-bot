@@ -91,7 +91,7 @@ if ($get['u']=='greate_pages') {
 	if (isset($modules['news']))
 		$urls['news'] = sitemap("SELECT id,name,url FROM news WHERE display=1 ORDER BY date DESC",'/'.$modules['news'].'/{id}-{url}/');
 	if (isset($modules['gallery']))
-		$urls['gallery'] = sitemap("SELECT id,name,url FROM gallery WHERE display=1 ORDER BY rank DESC",'/'.$modules['gallery'].'/{id}-{url}/');
+		$urls['gallery'] = sitemap("SELECT id,name,url FROM gallery WHERE display=1 ORDER BY `rank` DESC",'/'.$modules['gallery'].'/{id}-{url}/');
 	if (isset($modules['shop'])) {
 		$urls['shop_products'] = sitemap("
 			SELECT sp.url,sp.id,sp.name, sc.url category_url,sc.id category_id

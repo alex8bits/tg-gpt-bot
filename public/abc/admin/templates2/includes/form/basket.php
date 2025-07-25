@@ -40,7 +40,7 @@ $basket = @$post['basket'] ? unserialize($post['basket']):array();
 <h2>Данные клиента</h2>
 <?=form('input td3', 'email')?>
 <?php
-if ($fields = mysql_select("SELECT * FROM user_fields WHERE display = 1 ORDER BY rank DESC", 'rows')) {
+if ($fields = mysql_select("SELECT * FROM user_fields WHERE display = 1 ORDER BY `rank` DESC", 'rows')) {
 	foreach ($fields as $q) {
 		$values = unserialize($q['values']);
 		if (!isset($basket['user'][$q['id']][0])) $basket['user'][$q['id']][0] = '';

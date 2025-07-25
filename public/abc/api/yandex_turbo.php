@@ -21,7 +21,7 @@ header('Content-Type: application/rss+xml; charset=utf-8');
 $channel = $xml->addChild('channel');
 */
 $urls = array();
-$languages = mysql_select("SELECT * FROM languages WHERE display=1 ORDER BY rank DESC",'rows');
+$languages = mysql_select("SELECT * FROM languages WHERE display=1 ORDER BY `rank` DESC",'rows');
 foreach ($languages as $lang) {
 	//язык
 	$lang = lang($lang['id']);

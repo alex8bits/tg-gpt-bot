@@ -101,7 +101,7 @@ elseif($u[2]) {
 					if ($shop_parameters = mysql_select("
 						SELECT * FROM shop_parameters
 						WHERE display=1 AND id IN('" . implode("','", $prms) . "')
-						ORDER BY rank DESC
+						ORDER BY `rank` DESC
 					", 'rows_id')
 					) {
 						foreach ($shop_parameters as $k => $v) {

@@ -1,6 +1,6 @@
 <?php
 $parameters = isset($q['value']) ? unserialize($q['value']) : array();
-$shop_parameters = mysql_select("SELECT id,name FROM shop_parameters ORDER BY rank DESC",'array');
+$shop_parameters = mysql_select("SELECT id,name FROM shop_parameters ORDER BY `rank` DESC",'array');
 foreach ($parameters as $k=>$v) {
 	if (array_key_exists($k,$shop_parameters)) {
 		$parameters[$k]['name'] = $shop_parameters[$k];

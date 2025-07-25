@@ -6,7 +6,7 @@
 if ($get['u']=='shop_parameters') {
 	$parameters = mysql_select("SELECT parameters FROM shop_categories WHERE id=".intval(isset($get['category']) ? $get['category'] : 0),'string');
 	$parameters = $parameters ? unserialize($parameters) : array();
-	$shop_parameters = mysql_select("SELECT id,name,type,`values`,units FROM shop_parameters ORDER BY rank DESC",'rows_id');
+	$shop_parameters = mysql_select("SELECT id,name,type,`values`,units FROM shop_parameters ORDER BY `rank` DESC",'rows_id');
 	foreach ($parameters as $k=>$v) if (isset($v['display']) && $v['display']==1){
 		$name = $shop_parameters[$k]['name'].($shop_parameters[$k]['units'] ? ' ('.$shop_parameters[$k]['units'].')' : '');
 		if (array_key_exists($k,$shop_parameters)) {
@@ -40,7 +40,7 @@ $form[3][] = '';
 if (in_array($get['u'],array('form','edit')) OR ($get['id']>0 AND $get['u']=='')) {
 	$parameters = mysql_select("SELECT parameters FROM shop_categories WHERE id=".intval(isset($post['category']) ? $post['category'] : 0),'string');
 	$parameters = $parameters ? unserialize($parameters) : array();
-	$shop_parameters = mysql_select("SELECT id,name,type,`values`,units FROM shop_parameters ORDER BY rank DESC",'rows_id');
+	$shop_parameters = mysql_select("SELECT id,name,type,`values`,units FROM shop_parameters ORDER BY `rank` DESC",'rows_id');
 	$form[3][] = '<div class="col-xl-12">';
 	$form[3][] = 'Параметры добавляются и редактируются в разделе <a href="?m=shop_parameters"><u>параметры</u></a>.';
 	$form[3][] = '<br />Настройка сортировки и отображения параметров на сайте редактируется в разделе <a href="?m=shop_categories"><u>категории</u></a>.

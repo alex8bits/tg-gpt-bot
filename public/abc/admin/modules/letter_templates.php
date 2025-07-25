@@ -13,7 +13,7 @@ $template = array(
 	1 => 'основной шаблон'
 );
 
-$tabs = mysql_select("SELECT id,name FROM languages ORDER BY rank DESC",'array');
+$tabs = mysql_select("SELECT id,name FROM languages ORDER BY `rank` DESC",'array');
 
 if ($get['u']=='edit') {
 	foreach ($tabs as $k=>$v) {

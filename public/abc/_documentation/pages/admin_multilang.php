@@ -8,7 +8,7 @@
 	<br>В модуле админки для древовидных модулей нужно обязательно добавить фильтр по языку и скрытое поле языка в форму
 <pre>//только если многоязычный сайт
 if ($config['multilingual']) {
-	$languages = mysql_select("SELECT id,name FROM languages ORDER BY rank DESC", 'array');
+	$languages = mysql_select("SELECT id,name FROM languages ORDER BY `rank` DESC", 'array');
 	$get['language'] = (isset($_REQUEST['language']) && intval($_REQUEST['language'])) ? $_REQUEST['language'] : key($languages);
 	if ($get['language'] == 0) $get['language'] = key($languages);
 	$query = "
@@ -55,7 +55,7 @@ if ($config['multilingual']) {
 }</pre>
 	<br>В исключительных случаях когда нужно нестандартно размещать зеркальные поля то можно добавить исключения в самих модулях
 <pre>if ($config['multilingual']) {
-	$config['languages'] = mysql_select("SELECT id,name FROM languages ORDEr BY display DESC, rank DESC",'rows');
+	$config['languages'] = mysql_select("SELECT id,name FROM languages ORDEr BY display DESC, `rank` DESC",'rows');
 	if ($get['u']=='edit') {
 		//перезапись названия в основной язык
 		$k = $config['languages'][0]['id'];

@@ -65,7 +65,7 @@ foreach ($basket['products'] as $k=>$v) {
 	<dd><?=$q['email']?></dd>
 <?php
 if (is_array($basket['user'])) {
-	if ($fields = mysql_select("SELECT * FROM user_fields WHERE display = 1 ORDER BY rank DESC",'rows')) {
+	if ($fields = mysql_select("SELECT * FROM user_fields WHERE display = 1 ORDER BY `rank` DESC",'rows')) {
 		foreach ($fields as $f) if (isset($basket['user'][$f['id']])) {
 			if ($config['multilingual']) $f['name'] = $f['name' . $lang['i']];
 			?>

@@ -33,7 +33,7 @@ $lang = false;
 //v1.4.42 - правки в многоязычности
 if ($config['multilingual'] AND $u[1]) {
 	//все языки
-	$langs = mysql_select("SELECT url id,id name FROM languages WHERE display=1 ORDER by rank DESC", 'array');
+	$langs = mysql_select("SELECT url id,id name FROM languages WHERE display=1 ORDER by `rank` DESC", 'array');
 	$lang_id = isset($langs[$u[1]]) ? $langs[$u[1]] : 1;
 	//если не первый язык или u0 включена
 	if ($lang_id != 1 OR $config['multilingual_u0']) {

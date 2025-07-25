@@ -7,7 +7,7 @@
  */
 
 //добавляем выборку всех языков
-$languages = mysql_select("SELECT id,name FROM languages ORDER BY rank DESC", 'array');
+$languages = mysql_select("SELECT id,name FROM languages ORDER BY `rank` DESC", 'array');
 
 //добавочные поля в формах в разных модулях
 $config['lang_fields'] = array(

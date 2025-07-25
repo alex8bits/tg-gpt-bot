@@ -9,7 +9,7 @@ $a18n['name2'] = 'name';
 $countries = mysql_select("
 	SELECT id, name
 	FROM geo_countries
-	ORDER BY rank DESC,name
+	ORDER BY `rank` DESC,name
 ","array");
 
 

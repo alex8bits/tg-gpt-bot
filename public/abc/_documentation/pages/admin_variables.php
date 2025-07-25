@@ -213,7 +213,7 @@ $query = "
 		<li><code>'_tree'		=>true</code> только так будет выводится древовидная таблица</li>
 		<li><code>'_edit'		=>true|false|edit|add</code> можно/нельзя добавлять и редактировать | только редактировать | только добавлять</li>
 		<li><code>'_delete'	=></code> нет ссылки удалить</li>
-		<li><code>'id'		=>'rank:desc id'</code> поля по которым идет сортировка, по умолчанию сортировка по rank (первый в списке)</li>
+		<li><code>'id'		=>'rank:desc id'</code> поля по которым идет сортировка, по умолчанию сортировка по `rank` (первый в списке)</li>
 		<li><code>'name'		=>''</code> поле быстрого редактирования</li>
 		<li><code>'name'      =>'::order_link'</code> поле, значение которого вернет пользовательская функция order_link, описанная в модуле</li>
 		<li><code>'name'		=>'<?=htmlspecialchars('<a target="blank" href="/module/{id}/">{name}</a>')?>'</code> шаблон {name} будет заменено на $q['name']</li>

@@ -123,7 +123,7 @@ if ($get['u']=='form' OR $get['id']>0) {
 		SELECT *
 		FROM user_fields
 		WHERE display = 1
-		ORDER BY rank DESC
+		ORDER BY `rank` DESC
 	",'rows')) {
 		$form[] = '<h2>Дополнительные параметры</h2>';
 		foreach ($parameters as $q) {

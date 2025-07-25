@@ -8,7 +8,7 @@
 if ($u[2]) $error++;
 
 //отделения
-$abc['branches'] = mysql_select("SELECT * FROM shop_branches WHERE display=1 ORDER BY rank DESC",'rows');
+$abc['branches'] = mysql_select("SELECT * FROM shop_branches WHERE display=1 ORDER BY `rank` DESC",'rows');
 
 //обработка формы перенесена в /ajax/_feedback.php
 /*

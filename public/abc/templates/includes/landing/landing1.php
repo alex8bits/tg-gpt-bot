@@ -3,7 +3,7 @@
 if ($items = mysql_select("
 	SELECT * FROM landing_items
 	WHERE template=".$q['template']." AND language=".$lang['id']."
-	ORDER BY rank DESC",'rows'))
+	ORDER BY `rank` DESC",'rows'))
 {
 	?>
 	<ul>

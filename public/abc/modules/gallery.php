@@ -4,7 +4,7 @@ $abc['galleries'] = mysql_select("
 		SELECT *
 		FROM gallery
 		WHERE display = 1 AND img!=''
-		ORDER BY rank DESC,name
+		ORDER BY `rank` DESC,name
 	",'rows');
 //одна запись
 if ($u[2] OR count($abc['galleries'])==1) {

@@ -21,7 +21,7 @@ $lang = lang(); //print_r($lang);
 $modules = mysql_select("SELECT url name,module id FROM pages WHERE module!='pages' AND language=".$lang['id']." AND display=1",'array',60*60);
 
 $categories = mysql_select("SELECT id,url,name,parameters,parent FROM shop_categories WHERE display=1",'rows_id');
-$shop_parameters = mysql_select("SELECT * FROM shop_parameters WHERE display=1 ORDER BY rank DESC ",'rows_id');
+$shop_parameters = mysql_select("SELECT * FROM shop_parameters WHERE display=1 ORDER BY `rank` DESC ",'rows_id');
 
 $xml = '<?xml version="1.0" encoding="UTF-8"?>';
 $xml.= '<!DOCTYPE yml_catalog SYSTEM "shops.dtd">';

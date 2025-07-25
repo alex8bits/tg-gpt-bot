@@ -20,7 +20,7 @@ $types = mysql_select("SELECT id,name FROM order_types ORDER BY rank",'array');
 function event_change_orders($q){
 	global $lang,$post;
 	if ($_POST['send']) {
-		$order = mysql_select("SELECT name ot_name,text ot_text FROM order_types WHERE id = '".$post['type']."' ORDER BY rank LIMIT 1",'row');
+		$order = mysql_select("SELECT name ot_name,text ot_text FROM order_types WHERE id = '".$post['type']."' ORDER BY `rank` LIMIT 1",'row');
 		$order = array_merge($order,$post);
 		$order['id'] = $q['id'];
 		require_once(ROOT_DIR.'functions/mail_func.php');	//функции для сайта
@@ -134,7 +134,7 @@ else {
 
 	$form[] = '<h2>Данные клиента</h2>';
 	$form[] = array('input td3', 'email', true);
-	if ($fields = mysql_select("SELECT * FROM user_fields WHERE display = 1 ORDER BY rank DESC", 'rows')) {
+	if ($fields = mysql_select("SELECT * FROM user_fields WHERE display = 1 ORDER BY `rank` DESC", 'rows')) {
 		foreach ($fields as $q) {
 			$values = unserialize($q['values']);
 			if (!isset($basket['user'][$q['id']][0])) $basket['user'][$q['id']][0] = '';
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		$(this).parents("tr").remove();
 		return false;
 	});
-})	
+})
 </script>';
 }
 

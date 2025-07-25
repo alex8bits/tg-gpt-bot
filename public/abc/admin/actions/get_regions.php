@@ -14,7 +14,7 @@ if (@$_POST['country']) {
 		SELECT id,name
 		FROM geo_regions
 		WHERE 1 " . $where . "
-		ORDER BY rank DESC, name
+		ORDER BY `rank` DESC, name
 	";
 
 	$items = mysql_select($query, 'array');

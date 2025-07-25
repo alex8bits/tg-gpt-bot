@@ -33,7 +33,7 @@ $lang = lang(@$_GET['language'],'id');
 //настройки многоязычности
 if ($config['multilingual']) {
 	include(ROOT_DIR.'admin/config_multilingual.php');
-	$config['languages'] = mysql_select("SELECT id,name FROM languages ORDER BY display DESC, rank DESC", 'rows');
+	$config['languages'] = mysql_select("SELECT id,name FROM languages ORDER BY display DESC, `rank` DESC", 'rows');
 }
 //аутентификация - создание массива с данными пользователя
 $user = user('auth'); //print_R($_SESSION['user']);

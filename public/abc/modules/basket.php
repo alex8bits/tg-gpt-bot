@@ -55,7 +55,7 @@ else {
 		$q['delivery_cost'] = $d['free']>0 && $q['total']>$d['free'] ? 0 : $d['cost'];
 		if ($q['total']>0) {
 			$q['total']+= $q['delivery_cost'];
-			$o = mysql_select("SELECT * FROM order_types WHERE display=1 ORDER BY rank LIMIT 1",'row');
+			$o = mysql_select("SELECT * FROM order_types WHERE display=1 ORDER BY `rank` LIMIT 1",'row');
 			$order = array(
 				'paid'	=> 0,
 				'type'	=> $o['id'],

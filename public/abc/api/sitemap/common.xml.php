@@ -27,7 +27,7 @@ $content = '<?xml version="1.0" encoding="utf-8"?>
 $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" />');
 
 //генерация всех ссылок
-$languages = mysql_select("SELECT * FROM languages WHERE display=1 ORDER BY rank DESC", 'rows');
+$languages = mysql_select("SELECT * FROM languages WHERE display=1 ORDER BY `rank` DESC", 'rows');
 foreach ($languages as $lang) {
 	//язык
 	$lang = lang($lang['id']);
@@ -73,7 +73,7 @@ foreach ($languages as $lang) {
 		SELECT id,url,updated_at
 		FROM gallery
 		WHERE display=1
-		ORDER BY rank DESC", 'rows')
+		ORDER BY `rank` DESC", 'rows')
 	) {
 		foreach ($pages as $q) {
 			$urls[] = array(
