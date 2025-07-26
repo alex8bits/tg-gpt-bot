@@ -460,6 +460,9 @@ function form ($class,$key,$param=array()) {
 				if (isset($value[$v[0]]))
 					$where.= " AND ".$v[0]." = '".$value[$v[0]]."'";
 			}
+            if (!$value['level']) {
+                $value['level'] = 1;
+            }
 			$previos = mysql_select("SELECT id FROM `".$module['table']."` WHERE left_key>".$value['left_key']." AND level=".$value['level']." $where ORDER BY left_key LIMIT 1",'string');
 			if ($previos==false) $previos=0;
 			$parent_array = "
@@ -875,7 +878,7 @@ function form_file ($type,$key, $param = array()) {
 		$hypertext = $post[$key] ? json_decode($post[$key],true) : array();
 		$update = 0;
 		$photos2 = array(); //список всех картинок
-		
+
 		foreach ($hypertext as $k=>$v) {
 			if ($v['type']=='images') {
 				$file = '';
