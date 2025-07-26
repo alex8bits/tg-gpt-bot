@@ -89,12 +89,17 @@ class TelegramBotController extends Controller
             Cache::put($customer->telegram_id . '_current_bot', $next_bot->id);
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
-                'text' => 'Debug: Продолжает общение ' . $current_bot->name . '. Раздражение: ' . $next_bot->impatience . '. Общительность: ' . $next_bot->sociability,
+                'text' => '**Debug**'. PHP_EOL .
+                    'Бот: ' . $current_bot->name . PHP_EOL .
+                    'Раздражение: ' . $next_bot->impatience . PHP_EOL .
+                    'Общительность: ' . $next_bot->sociability,
             ]);
         } elseif (isset($next_bot->id) && $next_bot->id == 0) {
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
-                'text' => 'Debug: Тема не определена. Раздражение: ' . $next_bot->impatience . '. Общительность: ' . $next_bot->sociability,
+                'text' => '**Debug**' . PHP_EOL . 'Тема не определена' . PHP_EOL .
+                    'Раздражение: ' . $next_bot->impatience . PHP_EOL .
+                    'Общительность: ' . $next_bot->sociability
             ]);
             $response = $this->chatService->moderate($dialog, $update_message->getText());
             Telegram::sendMessage([
@@ -105,7 +110,8 @@ class TelegramBotController extends Controller
         } else {
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
-                'text' => 'Debug: Распределитель ответил не по заданию. Он сказал: ' . $next_bot,
+                'text' => '**Debug**' . PHP_EOL .
+                    'Распределитель ответил не по заданию. Он сказал: ' . $next_bot,
             ]);
         }
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
@@ -143,7 +149,8 @@ class TelegramBotController extends Controller
                 }
                 Telegram::sendMessage([
                     'chat_id' => $customer->telegram_id,
-                    'text' => 'Debug: обработка претензии. ' . $result,
+                    'text' => '**Debug**' . PHP_EOL .
+                        'Обработка претензии. ' . $result,
                 ]);
             }
         }
