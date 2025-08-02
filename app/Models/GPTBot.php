@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $prompt
  * @property $system_request
  * @property $type
+ * @property $rank
  */
 class GPTBot extends Model
 {
@@ -21,11 +22,17 @@ class GPTBot extends Model
         'prompt',
         'system_request',
         'type',
+        'rank',
     ];
 
     protected $casts = [
         'type' => BotTypes::class
     ];
+
+    public function mainBots()
+    {
+        return $this->belongsToMany(MainBot::class);
+    }
 
     public function getPrompt()
     {

@@ -1,8 +1,8 @@
 <?php
 
-//Клиенты
+//GPT bots
 
-$referrers = mysql_select("SELECT id, name, theme, prompt, type FROM g_p_t_bots ORDER BY id", 'array');
+$main_bots = mysql_select("SELECT id, name FROM main_bots ORDER BY id", 'array');
 $categories = mysql_select("SELECT id, name FROM categories ORDER BY id", 'array');
 $a18n['theme'] = 'Ключевые слова';
 $a18n['type'] = 'Тип';
@@ -54,6 +54,9 @@ $form[] = array('select td4', 'type', array(
 $form[] = array('select td4', 'category_id', array(
     'value' => array(true, $categories)
 ));
+$form[] = array('multicheckbox td3','main_bots',array(
+    'value'=>array(true,'SELECT id,name FROM main_bots ORDER BY name'))
+);
 $form[] = array('textarea td12', 'theme');
 $form[] = array('textarea td12', 'prompt', array('attr' => 'style="height:300px!important"'));
 $form[] = array('textarea td12', 'system_request');

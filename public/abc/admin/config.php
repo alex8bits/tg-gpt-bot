@@ -47,6 +47,12 @@ $modules_admin = array(
         'module' => 'categories',
     ),
     array(
+        'name' => 'Основные боты',
+        'image' => 'users',
+        'icon' => 'users',
+        'module' => 'main_bots',
+    ),
+    array(
         'name' => 'GTP bots',
         'image' => 'users',
         'icon' => 'users',
@@ -70,12 +76,12 @@ $modules_admin = array(
         'icon' => 'users',
         'module' => 'feedback',
     ),
-	array(
+	/*array(
 		'module'=>'languages',
 		'name'=>'dictionary',
 		'image'=>'dictionary',
 		'icon'=>'book-open',
-	),
+	),*/
 
 	/*array(
 		'name'=>'geo',
