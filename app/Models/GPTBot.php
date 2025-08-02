@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $system_request
  * @property $type
  * @property $rank
+ * @property $main_bots
  */
 class GPTBot extends Model
 {
@@ -23,28 +24,30 @@ class GPTBot extends Model
         'system_request',
         'type',
         'rank',
+        'main_bots'
     ];
 
     protected $casts = [
         'type' => BotTypes::class
     ];
 
-    public function mainBots()
+    public function getPrompt($dialog = null)
     {
-        return $this->belongsToMany(MainBot::class);
-    }
-
-    public function getPrompt()
-    {
-        $path = public_path('abc/files/languages/1/dictionary/common.php');
-        if (file_exists($path)) {
-            require $path;
-            $prompt = $lang['common']['prompt'] ?? '';
-        } else {
-            $prompt = '';
+        if (!$dialog) {
+            return  $this->prompt;
+        }
+        /** @var Dialog $dialog */
+        $dialog = Dialog::find($dialog);
+        if (!$dialog || !$dialog->main_bot_id) {
+            return $this->prompt;
+        }
+        /** @var MainBot $main_bot */
+        $main_bot = MainBot::find($dialog->main_bot_id);
+        if (!$main_bot) {
+            return $this->prompt;
         }
 
-        return  $this->prompt . '. ' . $prompt;
+        return  $this->prompt . '. ' . $main_bot->prompt;
     }
 
     public function scopeWelcome($query)

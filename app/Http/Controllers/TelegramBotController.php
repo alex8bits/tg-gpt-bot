@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\CustomerData;
 use App\DTO\TelegramMessageData;
 use App\Enums\BotTypes;
 use App\Enums\FeedbackStates;
@@ -12,6 +11,7 @@ use App\Models\Customer;
 use App\Models\Dialog;
 use App\Models\Feedback;
 use App\Models\GPTBot;
+use App\Models\MainBot;
 use App\Services\ChatService;
 use App\Services\GptServiceInterface;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramBotController extends Controller
 {
-    public function __construct(protected  ChatService $chatService)
+    public function __construct(protected  ChatService $chatService, protected GptServiceInterface $gptService)
     {}
 
     public function setWebhook()
@@ -68,9 +68,19 @@ class TelegramBotController extends Controller
         ], [
             'name' => $update_message->getChat()->name,
         ]);
+
+        //Если введено название системного бота, начинаем новый диалог с ним
+        if (MainBot::whereNotNull('starting_bot')->whereSystemName($update_message->getText())->exists()) {
+            $this->startNewDialog($customer, $update_message->getText());
+
+            return false;
+        }
+
         $dialog = Cache::get($update_message->getChat()->id . '_dialog');
         if (!$dialog) {
-            $dialog = Dialog::create();
+            $dialog = Dialog::create([
+                'main_bot_id' => MainBot::whereNotNull('starting_bot')->first()?->id
+            ]);
             Cache::put($update_message->getChat()->id . '_dialog', $dialog->id);
             $dialog = $dialog->id;
         }
@@ -116,7 +126,7 @@ class TelegramBotController extends Controller
         }
         $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
         event(new MessageReceivedEvent($message, dialog_id: $dialog));
-        $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
+        $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->getPrompt($dialog), $dialog, $customer);
 
         if (!$response) {
             return false;
@@ -154,5 +164,25 @@ class TelegramBotController extends Controller
                 ]);
             }
         }
+    }
+
+    private function startNewDialog(Customer $customer, $text)
+    {
+        $main_bot = MainBot::whereNotNull('starting_bot')->whereSystemName($text)->first();
+        $starting_bot = GPTBot::find($main_bot->starting_bot);
+        $dialog = Dialog::create([
+            'main_bot_id' => $main_bot->id
+        ]);
+        Cache::put($customer->telegram_id . '_dialog', $dialog->id);
+        Cache::put($customer->telegram_id . '_current_bot', $starting_bot->id);
+
+        //Приветствие
+        $greeting = ChatService::greet($customer->telegram_id, MessageSources::Telegram, $this->gptService);
+        MessageReceivedEvent::dispatch($greeting, 'assistant', $dialog->id);
+
+        Telegram::sendMessage([
+            'chat_id' => $customer->telegram_id,
+            'text' => $greeting->text
+        ]);
     }
 }

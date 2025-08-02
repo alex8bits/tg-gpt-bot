@@ -9,7 +9,9 @@ use App\Enums\BotTypes;
 use App\Enums\MessageSources;
 use App\Events\MessageReceivedEvent;
 use App\Models\Customer;
+use App\Models\Dialog;
 use App\Models\GPTBot;
+use App\Models\MainBot;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
@@ -70,6 +72,10 @@ class ChatService
 
     public function selectNextBot($dialog_id, $last_message = null)
     {
+        /** @var Dialog $dialog */
+        $dialog = Dialog::find($dialog_id);
+        /** @var MainBot $main_bot */
+        $main_bot = MainBot::find($dialog->main_bot_id);
         $messagesModel = Message::whereDialogId($dialog_id)->latest()->limit(5)->get();
         $messages = [];
         foreach ($messagesModel as $index => $item) {
@@ -77,14 +83,14 @@ class ChatService
             $messages[] = GptMessageData::from($item);
         }
         $messages[] = new GptMessageData('user', $last_message);
-        $themes = GPTBot::common()->select('id', 'theme')->get();
+        $themes = GPTBot::whereIn('id', $main_bot->getBotsIds())->select('id', 'theme')->get();
         $themes_string = '';
         foreach ($themes as $theme) {
             $themes_string .= $theme->id . ': ' . $theme->theme . '. ';
         }
         /** @var GPTBot $spreader */
         $spreader = GPTBot::spreader()->first();
-        $prompt = $spreader->getPrompt() . '. Темы: ' . $themes_string;
+        $prompt = $spreader->getPrompt($dialog_id) . '. Темы: ' . $themes_string;
         $response = $this->gptService->sendMessages($messages, $prompt);
         $result = json_decode($response[0]) ?? $response[0];
         Log::debug('selectNextBot response', [

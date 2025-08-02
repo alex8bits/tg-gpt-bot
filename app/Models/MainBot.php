@@ -22,8 +22,18 @@ class MainBot extends Model
         'rank',
     ];
 
-    public function bots()
+    public function getBotsIds()
     {
-        return $this->belongsToMany(GPTBot::class);
+        $owned = [];
+        $bots = GPTBot::all();
+        /** @var GPTBot $bot */
+        foreach ($bots as $bot) {
+            $mains = explode(',', $bot->main_bots);
+            if (in_array($this->getAttribute('id'), $mains)) {
+                $owned[] = $bot->id;
+            }
+        }
+
+        return $owned;
     }
 }
