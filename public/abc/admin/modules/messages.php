@@ -1,6 +1,7 @@
 <?php
 
 //Сообщения
+$main_bots = mysql_select("SELECT id, name FROM main_bots ORDER BY id", 'array');
 $a18n['customer_id'] = 'Клиент';
 $a18n['dialog_id'] = 'Номер диалога';
 $a18n['gpt_bot_id'] = 'Номер бота';
@@ -12,6 +13,7 @@ $table = array(
     'customer_id' => '',
     'dialog_id' => '',
     'gpt_bot_id' => '',
+    'main_bot_id' => $main_bots,
     'content' => '',
     'role' => '',
     'created_at' => 'date'

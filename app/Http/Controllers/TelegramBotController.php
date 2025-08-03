@@ -78,10 +78,14 @@ class TelegramBotController extends Controller
 
         $dialog = Cache::get($update_message->getChat()->id . '_dialog');
         if (!$dialog) {
+            $main_bot = MainBot::whereNotNull('starting_bot')->first();
             $dialog = Dialog::create([
-                'main_bot_id' => MainBot::whereNotNull('starting_bot')->first()?->id
+                'main_bot_id' => $main_bot?->id
             ]);
             Cache::put($update_message->getChat()->id . '_dialog', $dialog->id);
+            if ($main_bot) {
+                Cache::put($update_message->getChat()->id . '_main_bot', $main_bot->id);
+            }
             $dialog = $dialog->id;
         }
 
@@ -175,6 +179,7 @@ class TelegramBotController extends Controller
         ]);
         Cache::put($customer->telegram_id . '_dialog', $dialog->id);
         Cache::put($customer->telegram_id . '_current_bot', $starting_bot->id);
+        Cache::put($customer->telegram_id . '_main_bot', $main_bot->id);
 
         //Приветствие
         $greeting = ChatService::greet($customer->telegram_id, MessageSources::Telegram, $this->gptService);

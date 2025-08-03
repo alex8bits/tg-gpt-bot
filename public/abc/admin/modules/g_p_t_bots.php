@@ -27,7 +27,8 @@ $types = [
 ];
 
 $filter[] = array('search');
-$filter[] = array('category_id', $categories, NULL);
+$filter[] = array('category_id', $categories, "Выберите категорию");
+$filter[] = array('main_bots', $main_bots, 'Выберите основного бота');
 $where = "";
 if (isset($get['search']) && $get['search'] != '') {
     $search = mysql_res(mb_strtolower($get['search'], 'UTF-8'));
@@ -38,9 +39,16 @@ if (isset($get['search']) && $get['search'] != '') {
         )
     ";
 }
-
+/*if (isset($get['main_bots']) && $get['main_bots'] != '') {
+    $where .= "
+        AND (
+            LOWER(g_p_t_bots.main_bots) LIKE %{$_GET['main_bots']}%
+        )
+    ";
+}*/
 
 if (@$_GET['category_id']) $where.= " AND g_p_t_bots.category_id=".intval($_GET['category_id']);
+if (@$_GET['main_bots']) $where.= " AND g_p_t_bots.main_bots LIKE '%{$_GET['main_bots']}%' ";
 
 $query = "
 	SELECT * FROM g_p_t_bots

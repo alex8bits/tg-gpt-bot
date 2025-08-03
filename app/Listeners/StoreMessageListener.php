@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class StoreMessageListener
@@ -38,7 +39,8 @@ class StoreMessageListener
             'dialog_id' => $event->dialog_id,
             'role' => $event->role,
             'content' => $event->messageData->text,
-            'gpt_bot_id' => $event->messageData->bot_id
+            'gpt_bot_id' => $event->messageData->bot_id,
+            'main_bot_id' => Cache::get($customer->telegram_id . '_main_bot'),
         ]);
     }
 }
