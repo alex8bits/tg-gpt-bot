@@ -120,7 +120,7 @@ class TelegramBotController extends Controller
                 'chat_id' => $customer->telegram_id,
                 'text' => $response
             ]);
-            return false;
+            //return false;
         } else {
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
