@@ -172,6 +172,29 @@ class TelegramBotController extends Controller
                 ]);
             }
         }
+        if ($current_bot->type == BotTypes::CALLBACK) {
+            $message = new TelegramMessageData($update_message->getChat()->id, $current_bot->system_request, MessageSources::Telegram, $current_bot->id);
+            $feedback_response = $this->chatService->sendMessage($message, $current_bot, $current_bot->getPrompt(), $dialog, $customer);
+            Log::debug('$feedback_response', ['data' => $feedback_response]);
+            if (json_decode($feedback_response)) {
+                $feedback_response = json_decode($feedback_response);
+                if ($feedback_response->claim === 0) {
+                    $result = 'Не хватает данных';
+                } elseif ($feedback_response->claim === 2) {
+                    $result = 'Вся информация есть. ' . $feedback_response->content;
+                    Feedback::create([
+                        'customer_id' => $customer->id,
+                        'text' => $feedback_response->content,
+                        'status' => FeedbackStates::NEW,
+                    ]);
+                }
+                Telegram::sendMessage([
+                    'chat_id' => $customer->telegram_id,
+                    'text' => '**Debug**' . PHP_EOL .
+                        'Заказ обратного звонка. ' . $result,
+                ]);
+            };
+        }
     }
 
     private function startNewDialog(Customer $customer, $text)
