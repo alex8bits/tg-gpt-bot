@@ -28,7 +28,7 @@ $table = array(
 
 $filter[] = array('search');
 $filter[] = array('status',$statuses,NULL,true);
-$filter[] = array('bot_type',$statuses,NULL,true);
+$filter[] = array('bot_type',$bot_types,NULL,true);
 $filter[] = array('date_from');
 $filter[] = array('date_to');
 
