@@ -21,7 +21,7 @@ class StartCommand extends Command
 
         /** @var MainBot $bot */
         foreach ($main_bots as $bot) {
-            $command = Str::replace('//', '/', '/' . $bot->system_name);
+            $command = $bot->system_name;
             $keyboard->row([
                 Keyboard::button($command)
             ]);
