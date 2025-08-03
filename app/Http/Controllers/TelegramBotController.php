@@ -183,7 +183,7 @@ class TelegramBotController extends Controller
                 } elseif ($feedback_response->claim === 1) {
                     $result = 'Вся информация есть. ' . $feedback_response->content;
                     if (!$customer->phone) {
-                        $customer->update(['phone' => $request->phone]);
+                        $customer->update(['phone' => $feedback_response->phone]);
                     }
                     Feedback::create([
                         'customer_id' => $customer->id,
