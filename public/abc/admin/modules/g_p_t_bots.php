@@ -39,13 +39,6 @@ if (isset($get['search']) && $get['search'] != '') {
         )
     ";
 }
-/*if (isset($get['main_bots']) && $get['main_bots'] != '') {
-    $where .= "
-        AND (
-            LOWER(g_p_t_bots.main_bots) LIKE %{$_GET['main_bots']}%
-        )
-    ";
-}*/
 
 if (@$_GET['category_id']) $where.= " AND g_p_t_bots.category_id=".intval($_GET['category_id']);
 if (@$_GET['main_bots']) $where.= " AND g_p_t_bots.main_bots LIKE '%{$_GET['main_bots']}%' ";

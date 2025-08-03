@@ -9,4 +9,6 @@ enum BotTypes: string
     case SPREADER = 'распределитель';
     case MODERATOR = 'модератор';
     case FEEDBACK = 'приём претензий';
+    case CALLBACK = 'обратный звонок';
+    case COURIER = 'вызов курьера';
 }
