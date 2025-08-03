@@ -11,9 +11,16 @@ $statuses = [
     'закрыта' => 'закрыта',
 ];
 
+$bot_types = [
+    'приём претензий' => 'приём претензий',
+    'обратный звонок' => 'обратный звонок',
+    'вызов курьера' => 'вызов курьера',
+];
+
 $table = array(
     'id' => 'id:desc',
     'customer_id' => '',
+    'bot_type' => '',
     'status' => '',
     'text' => '',
     'created_at' => 'date'
@@ -21,6 +28,7 @@ $table = array(
 
 $filter[] = array('search');
 $filter[] = array('status',$statuses,NULL,true);
+$filter[] = array('bot_type',$statuses,NULL,true);
 $filter[] = array('date_from');
 $filter[] = array('date_to');
 
@@ -34,6 +42,11 @@ if (isset($get['search']) && $get['search']!='') $where.= "
 if (isset($get['status']) && $get['status']!='') $where.= "
 	AND (
 		LOWER(feedback.status) like '%".mysql_res(mb_strtolower($get['status'],'UTF-8'))."%'
+	)
+";
+if (isset($get['bot_type']) && $get['bot_type']!='') $where.= "
+	AND (
+		LOWER(feedback.bot_type) like '%".mysql_res(mb_strtolower($get['bot_type'],'UTF-8'))."%'
 	)
 ";
 if (@$_GET['date_from']) {

@@ -163,6 +163,7 @@ class TelegramBotController extends Controller
                         'customer_id' => $customer->id,
                         'text' => $feedback_response->text,
                         'status' => FeedbackStates::NEW,
+                        'bot_type' => BotTypes::FEEDBACK
                     ]);
                 }
                 Telegram::sendMessage([
@@ -193,6 +194,7 @@ class TelegramBotController extends Controller
                         'customer_id' => $customer->id,
                         'text' => $feedback_response->content,
                         'status' => FeedbackStates::NEW,
+                        'bot_type' => BotTypes::CALLBACK
                     ]);
                 }
                 Telegram::sendMessage([
@@ -219,6 +221,7 @@ class TelegramBotController extends Controller
                         'customer_id' => $customer->id,
                         'text' => $feedback_response->content,
                         'status' => FeedbackStates::NEW,
+                        'bot_type' => BotTypes::COURIER
                     ]);
                 }
                 Telegram::sendMessage([
