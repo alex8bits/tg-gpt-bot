@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $id
  * @property $name
  * @property $telegram_id
+ * @property $phone
  * @property $rating
  */
 class Customer extends Model
@@ -15,6 +16,7 @@ class Customer extends Model
     protected $fillable = [
         'name',
         'telegram_id',
+        'phone',
         'rating',
     ];
 

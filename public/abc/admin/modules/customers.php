@@ -7,6 +7,7 @@ $table = array(
     'id' => 'id:desc',
     'telegram_id' => '',
     'name' => '',
+    'phone' => '',
     'rating' => '',
     'messages' => '<a href="/admin.php?m=messages&customer_id={id}">Перейти</a>'
 );
@@ -32,4 +33,5 @@ $filter[] = array('search');
 
 $form[] = array('input td3', 'telegram_id');
 $form[] = array('input td3', 'name');
+$form[] = array('input td3', 'phone');
 $form[] = array('input td3', 'rating');
