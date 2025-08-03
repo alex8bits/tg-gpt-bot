@@ -180,7 +180,7 @@ class TelegramBotController extends Controller
                 $feedback_response = json_decode($feedback_response);
                 if ($feedback_response->claim === 0) {
                     $result = 'Не хватает данных';
-                } elseif ($feedback_response->claim === 2) {
+                } elseif ($feedback_response->claim === 1) {
                     $result = 'Вся информация есть. ' . $feedback_response->content;
                     Feedback::create([
                         'customer_id' => $customer->id,
