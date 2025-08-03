@@ -202,6 +202,32 @@ class TelegramBotController extends Controller
                 ]);
             };
         }
+        if ($current_bot->type == BotTypes::COURIER) {
+            $message = new TelegramMessageData($update_message->getChat()->id, $message->text, MessageSources::Telegram, $current_bot->id);
+            $feedback_response = $this->chatService->sendMessage($message, $current_bot, $current_bot->system_request . $phone, $dialog, $customer);
+            Log::debug('$courier_response', ['data' => $feedback_response]);
+            if (json_decode($feedback_response)) {
+                $feedback_response = json_decode($feedback_response);
+                if ($feedback_response->claim === 0) {
+                    $result = 'Не хватает данных';
+                } elseif ($feedback_response->claim === 1) {
+                    $result = 'Вся информация есть. ' . $feedback_response->content;
+                    if (!$customer->phone) {
+                        $customer->update(['phone' => $feedback_response->phone]);
+                    }
+                    Feedback::create([
+                        'customer_id' => $customer->id,
+                        'text' => $feedback_response->content,
+                        'status' => FeedbackStates::NEW,
+                    ]);
+                }
+                Telegram::sendMessage([
+                    'chat_id' => $customer->telegram_id,
+                    'text' => '**Debug**' . PHP_EOL .
+                        'Заказ курьера. ' . $result,
+                ]);
+            };
+        }
     }
 
     private function startNewDialog(Customer $customer, $text)
