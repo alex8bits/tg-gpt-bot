@@ -95,6 +95,9 @@ class TelegramBotController extends Controller
             ??
             GPTBot::whereType(BotTypes::WELCOME->value)->first();
 
+        $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
+        event(new MessageReceivedEvent($message, dialog_id: $dialog));
+
         //Оцениваем ответ и выбираем следующего бота
         $next_bot = $this->chatService->selectNextBot($dialog, $update_message->getText());
         if (isset($next_bot->id) && $next_bot->id > 0) {
@@ -120,7 +123,9 @@ class TelegramBotController extends Controller
                 'chat_id' => $customer->telegram_id,
                 'text' => $response
             ]);
-            //return false;
+            $message = new TelegramMessageData($update_message->getChat()->id, $response, MessageSources::Telegram, $current_bot->id);
+            event(new MessageReceivedEvent($message, 'assistant', $dialog));
+            return false;
         } else {
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
@@ -128,8 +133,7 @@ class TelegramBotController extends Controller
                     'Распределитель ответил не по заданию. Он сказал: ' . $next_bot,
             ]);
         }
-        $message = new TelegramMessageData($update_message->getChat()->id, $update_message->getText(), MessageSources::Telegram, $current_bot->id);
-        event(new MessageReceivedEvent($message, dialog_id: $dialog));
+
         $response = $this->chatService->sendMessage($message, $current_bot, $current_bot->getPrompt($dialog), $dialog, $customer);
 
         if (!$response) {
