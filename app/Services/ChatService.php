@@ -76,6 +76,9 @@ class ChatService
         $dialog = Dialog::find($dialog_id);
         /** @var MainBot $main_bot */
         $main_bot = MainBot::find($dialog->main_bot_id);
+        if (!$main_bot) {
+            $dialog->update(['main_bot_id' => MainBot::first()]);
+        }
         $messagesModel = Message::whereDialogId($dialog_id)->latest()->limit(5)->get();
         $messages = [];
         foreach ($messagesModel as $index => $item) {
