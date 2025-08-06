@@ -11,6 +11,7 @@ $a18n['category_id'] = 'Категория';
 
 $table = array(
     'id' => 'rank id:desc',
+    'main_bots' => $main_bots,
     'category_id' => $categories,
     'name' => '',
     'theme' => '',
@@ -58,7 +59,7 @@ $form[] = array('select td4', 'category_id', array(
     'value' => array(true, $categories)
 ));
 $form[] = array('multicheckbox td3','main_bots',array(
-    'value'=>array(true,'SELECT id,name FROM main_bots ORDER BY name'))
+    'value'=>array(true,$main_bots))
 );
 $form[] = array('textarea td12', 'theme');
 $form[] = array('textarea td12', 'prompt', array('attr' => 'style="height:300px!important"'));

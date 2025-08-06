@@ -108,7 +108,7 @@ $form[] = array('checkbox td3','change',array(
 	'name'=>'изменить пароль',
 	'attr'=>'onchange=$(this).closest(\'form\').find(\'input[name=email],input[name=password]\').prop(\'disabled\',!this.checked)'
 ));
-$form[] = array('select td3','type',array(
+$form[] = array('multicheckbox td3','type',array(
 	'value'=>array(true,$user_types,'')
 ));
 //$form[] = array('input td3','date',array('name'=>'дата регистрации'));

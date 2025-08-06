@@ -58,9 +58,9 @@ $config['mysql_database'] = 'bot';
 //исключение для локальной версии
 if ($config['local']) {
 	$config['mysql_server'] = ($_SERVER['HTTP_HOST'] == 'localhost:8000') ? 'db' : 'localhost';
-	$config['mysql_username'] = 'bot';
-	$config['mysql_password'] = 'Sx]alY8O*[5ZOHeB';
-	$config['mysql_database'] = 'bot';
+	$config['mysql_username'] = 'root';
+	$config['mysql_password'] = '';
+	$config['mysql_database'] = 'laravel';
 }
 //исключение тестовой версии
 elseif($_SERVER['SERVER_NAME'] == 'abc-cms.com'){
