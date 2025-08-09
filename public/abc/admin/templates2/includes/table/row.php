@@ -63,8 +63,6 @@ foreach ($q['list'] as $row) { ?>
                         $str = is_array($v[$row[$k]]) ? $v[$row[$k]]['name'] : $v[$row[$k]];
                     }
                     $content .= '<td class="select" data-id="' . $row[$k] . '" data-name="' . $k . '">' . $str . '</td>';
-                } elseif ($k == 'main_bots') {
-                    $content .= '<td>' . implode('<br>', $v) . '</td>';
                 } else {
                     $str = '';
                     if (isset($row[$k]) and isset($v[$row[$k]])) {
