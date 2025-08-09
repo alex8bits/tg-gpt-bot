@@ -68,7 +68,7 @@ $form[] = array('select td3', 'category_id', array(
     'value' => array(true, $categories)
 ));
 $form[] = array('select td3', 'rating', array(
-    'value' => array(true, $rating)
+    'value' => array(true, $rating, null)
 ));
 $form[] = array('multicheckbox td3','main_bots',array(
     'value'=>array(true, $main_bots))
