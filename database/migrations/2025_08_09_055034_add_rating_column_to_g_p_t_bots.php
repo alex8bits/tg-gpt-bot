@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('g_p_t_bots', function (Blueprint $table) {
-            $table->unsignedSmallInteger('rating')->nullable();
+            $table->string('rating')->nullable();
         });
     }
 
