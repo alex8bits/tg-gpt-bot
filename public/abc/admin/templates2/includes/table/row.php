@@ -64,10 +64,18 @@ foreach ($q['list'] as $row) { ?>
                     }
                     $content .= '<td class="select" data-id="' . $row[$k] . '" data-name="' . $k . '">' . $str . '</td>';
                 } else {
+                    $vals = $row[$k];
                     $str = '';
-                    if (isset($row[$k]) and isset($v[$row[$k]])) {
-                        $str = is_array($v[$row[$k]]) ? $v[$row[$k]]['name'] : $v[$row[$k]];
+                    if ($vals) {
+                        $vals = explode(',', $vals);
+                        foreach ($vals as $val) {
+                            if (isset($row[$k]) and isset($v[$val])) {
+                                $str .= is_array($v[$val]) ? $v[$val]['name'] : $v[$val];
+                                $str .= '<br>';
+                            }
+                        }
                     }
+
                     $content .= '<td>' . $str . '</td>';
                 }
             } elseif ($v == 'date') $content .= '<td data-name="' . $k . '" class="post">' . $row[$k] . '</td>';
