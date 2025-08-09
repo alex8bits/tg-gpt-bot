@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $type
  * @property $rank
  * @property $main_bots
+ * @property $rating
  */
 class GPTBot extends Model
 {
@@ -24,7 +25,8 @@ class GPTBot extends Model
         'system_request',
         'type',
         'rank',
-        'main_bots'
+        'main_bots',
+        'rating',
     ];
 
     protected $casts = [

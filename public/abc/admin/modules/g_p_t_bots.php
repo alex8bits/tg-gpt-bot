@@ -16,6 +16,7 @@ $table = array(
     'name' => '',
     'theme' => '',
     'type' => '',
+    'rating' => '',
     'rank' => ''
 );
 
@@ -27,6 +28,14 @@ $types = [
     'приём претензий' => 'приём претензий',
     'обратный звонок' => 'обратный звонок',
     'вызов курьера' => 'вызов курьера',
+];
+
+$rating = [
+    '1' => '1',
+    '2' => '2',
+    '3' => '3',
+    '4' => '4',
+    '5' => '5',
 ];
 
 $filter[] = array('search');
@@ -51,15 +60,18 @@ $query = "
 	WHERE 1 " . $where;
 
 
-$form[] = array('input td4', 'name');
-$form[] = array('select td4', 'type', array(
+$form[] = array('input td3', 'name');
+$form[] = array('select td3', 'type', array(
     'value' => array(true, $types)
 ));
-$form[] = array('select td4', 'category_id', array(
+$form[] = array('select td3', 'category_id', array(
     'value' => array(true, $categories)
 ));
+$form[] = array('select td3', 'rating', array(
+    'value' => array(true, $rating)
+));
 $form[] = array('multicheckbox td3','main_bots',array(
-    'value'=>array(true,$main_bots))
+    'value'=>array(true, $main_bots))
 );
 $form[] = array('textarea td12', 'theme');
 $form[] = array('textarea td12', 'prompt', array('attr' => 'style="height:300px!important"'));
