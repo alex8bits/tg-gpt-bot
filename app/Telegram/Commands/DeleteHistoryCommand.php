@@ -27,8 +27,7 @@ class DeleteHistoryCommand extends Command
         ]);
 
         $this->replyWithMessage([
-            'text' => 'История переписки очищена',
-            'reply_markup' => Keyboard::remove(),
+            'text' => 'История переписки очищена'
         ]);
     }
 
