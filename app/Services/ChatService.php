@@ -40,7 +40,7 @@ class ChatService
         }
         $messages[] = new GptMessageData('user', $messageData->text);
         Log::info('messages', ['data' => $messages]);
-
+        Log::info('ChatService->sendMessage');
         $response = $this->gptService->sendMessages($messages, $prompt);
 
         return $response[0];
@@ -58,6 +58,7 @@ class ChatService
         /** @var GPTBot $moderator */
         $moderator = GPTBot::moderator()->first();
         $prompt = $moderator->getPrompt();
+        Log::info('ChatService->moderate');
         $response = $this->gptService->sendMessages($messages, $prompt);
         $result = $response[0];
         Log::debug('moderate response', [
@@ -115,6 +116,7 @@ class ChatService
             ],
 
         ];
+        Log::info('ChatService->selectNextBot');
         $response = $this->gptService->sendMessagesToClassifier($messages, $schema, $prompt);
         $result = json_decode($response[0]) ?? $response[0];
         Log::debug('selectNextBot response', [
@@ -146,6 +148,7 @@ class ChatService
         $greeting_text .= $greeter->getPrompt();
         $messages[] = new GptMessageData('user', $greeting_text);
 
+        Log::info('ChatService->greet');
         $response = $gptService->sendMessages($messages);
 
         $message = new TelegramMessageData($chat_id, $response[0], MessageSources::Telegram, $greeter->id);
@@ -166,6 +169,7 @@ class ChatService
         $messages[] = new GptMessageData('system', config('open_ai.prompt'));
         $messages[] = new GptMessageData('user', $bot->getPrompt());
 
+        Log::info('ChatService->firstMessage');
         $response = $gptService->sendMessages($messages);
 
         $message = new TelegramMessageData($chat_id, $response[0], MessageSources::Telegram, $bot->id);
