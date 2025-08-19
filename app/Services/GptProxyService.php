@@ -21,7 +21,7 @@ class GptProxyService implements GptServiceInterface
         $this->model = config('open_ai.model');
         $this->classifier_model = config('open_ai.classifier_model');
         $this->max_tokens = (int)(config('open_ai.max_tokens'));
-        $this->temperature = (config('open_ai.temperature'));
+        $this->temperature = (float)(config('open_ai.temperature'));
     }
 
     public function sendMessages(array $messages, string $prompt = null): array
