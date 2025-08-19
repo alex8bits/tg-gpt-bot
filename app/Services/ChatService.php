@@ -111,7 +111,7 @@ class ChatService
                 ]
             ]
         ];
-        $response = $this->gptService->sendMessagesToClassifier($messages, json_encode($schema), $prompt);
+        $response = $this->gptService->sendMessagesToClassifier($messages, $schema, $prompt);
         $result = json_decode($response[0]) ?? $response[0];
         Log::debug('selectNextBot response', [
             'result' => $result,
