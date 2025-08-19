@@ -94,7 +94,24 @@ class ChatService
         /** @var GPTBot $spreader */
         $spreader = GPTBot::spreader()->first();
         $prompt = $spreader->getPrompt($dialog_id) . '. Темы: ' . $themes_string;
-        $response = $this->gptService->sendMessages($messages, $prompt);
+        $schema = [
+            'type' => 'object',
+            'properties' => [
+                'id' => [
+                    'type' => 'integer',
+                    'description' => 'id выбранной темы'
+                ],
+                'impatience' => [
+                    'type' => 'integer',
+                    'description' => 'уровень раздражения пользователя от 0 (доброжелателен) до 100 (максимально раздражён)'
+                ],
+                'sociability' => [
+                    'type' => 'integer',
+                    'description' => 'желание пользователя продолжать общение от 0 до 100'
+                ]
+            ]
+        ];
+        $response = $this->gptService->sendMessagesToClassifier($messages, json_encode($schema), $prompt);
         $result = json_decode($response[0]) ?? $response[0];
         Log::debug('selectNextBot response', [
             'result' => $result,
