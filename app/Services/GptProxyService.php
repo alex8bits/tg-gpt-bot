@@ -58,7 +58,7 @@ class GptProxyService implements GptServiceInterface
             'model' => $this->classifier_model,
             'messages' => $messages,
             'max_completion_tokens' => $this->max_tokens,
-            'temperature' => $this->temperature,
+            'temperature' => 1,
             'response_format' => [
                 'type' => 'json_schema',
                 'schema' => $schema
