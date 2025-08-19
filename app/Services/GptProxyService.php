@@ -57,7 +57,7 @@ class GptProxyService implements GptServiceInterface
         $response = Http::post($this->bot_url, [
             'model' => $this->classifier_model,
             'messages' => $messages,
-            'max_tokens' => $this->max_tokens,
+            'max_completion_tokens' => $this->max_tokens,
             'temperature' => $this->temperature,
             'response_format' => [
                 'type' => 'json_schema',

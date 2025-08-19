@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Services\GptProxyService;
-use App\Services\GptService;
+use App\Services\GptDirectService;
 use App\Services\GptServiceInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
         if (config('open_ai.bot_url')) {
             $this->app->bind(GptServiceInterface::class, GptProxyService::class);
         } else {
-            $this->app->bind(GptServiceInterface::class, GptService::class);
+            $this->app->bind(GptServiceInterface::class, GptDirectService::class);
         }
     }
 

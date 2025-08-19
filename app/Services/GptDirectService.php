@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class GptService implements GptServiceInterface
+class GptDirectService implements GptServiceInterface
 {
     protected $url;
     protected $api_key;
@@ -56,7 +56,7 @@ class GptService implements GptServiceInterface
         $response = Http::withToken($this->api_key)->post($this->url, [
             'model' => $this->classifier_model,
             'messages' => $messages,
-            'max_tokens' => $this->max_tokens,
+            'max_completion_tokens' => $this->max_tokens,
             'temperature' => $this->temperature,
             'response_format' => [
                 'type' => 'json_schema',
