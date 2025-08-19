@@ -71,6 +71,7 @@ class GptProxyService implements GptServiceInterface
         }
         $data = $response->json();
         Log::debug('GptProxyService classifier answers', ['data' => $data]);
+        Log::debug('GptProxyService classifier answers2', ['data' => $response->body()]);
 
         $answers = [];
         foreach ($data['choices'] as $choice) {

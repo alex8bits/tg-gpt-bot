@@ -64,7 +64,7 @@ class ChatService
         Log::debug('moderate response', [
             'result' => $result,
             'response' => $response,
-            'prompt' => $prompt,
+            //'prompt' => $prompt,
             'messages' => $messages,
         ]);
 
@@ -122,7 +122,7 @@ class ChatService
         Log::debug('selectNextBot response', [
             'result' => $result,
             'response' => $response,
-            'prompt' => $prompt,
+            //'prompt' => $prompt,
             'messages' => $messages,
         ]);
 
