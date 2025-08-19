@@ -96,20 +96,24 @@ class ChatService
         $prompt = $spreader->getPrompt($dialog_id) . '. Темы: ' . $themes_string;
         $schema = [
             'name' => 'theme_detecting',
-            'properties' => [
-                'id' => [
-                    'type' => 'integer',
-                    'description' => 'id выбранной темы'
-                ],
-                'impatience' => [
-                    'type' => 'integer',
-                    'description' => 'уровень раздражения пользователя от 0 (доброжелателен) до 100 (максимально раздражён)'
-                ],
-                'sociability' => [
-                    'type' => 'integer',
-                    'description' => 'желание пользователя продолжать общение от 0 до 100'
+            'schema' => [
+                'type' => 'object',
+                'properties' => [
+                    'id' => [
+                        'type' => 'integer',
+                        'description' => 'id выбранной темы'
+                    ],
+                    'impatience' => [
+                        'type' => 'integer',
+                        'description' => 'уровень раздражения пользователя от 0 (доброжелателен) до 100 (максимально раздражён)'
+                    ],
+                    'sociability' => [
+                        'type' => 'integer',
+                        'description' => 'желание пользователя продолжать общение от 0 до 100'
+                    ]
                 ]
-            ]
+            ],
+
         ];
         $response = $this->gptService->sendMessagesToClassifier($messages, $schema, $prompt);
         $result = json_decode($response[0]) ?? $response[0];
