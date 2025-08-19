@@ -95,7 +95,7 @@ class ChatService
         $spreader = GPTBot::spreader()->first();
         $prompt = $spreader->getPrompt($dialog_id) . '. Темы: ' . $themes_string;
         $schema = [
-            'type' => 'object',
+            'name' => 'theme_detecting',
             'properties' => [
                 'id' => [
                     'type' => 'integer',

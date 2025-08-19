@@ -62,7 +62,6 @@ class GptProxyService implements GptServiceInterface
             'response_format' => [
                 'type' => 'json_schema',
                 'json_schema' => $schema,
-                'name' => 'theme_detecting'
             ]
         ]);
 
