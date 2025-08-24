@@ -102,7 +102,7 @@ class ChatService
             $messages[] = GptMessageData::from($item);
         }
         $messages[] = new GptMessageData('user', $last_message);
-        $themes = GPTBot::whereIn('id', $main_bot->getBotsIds())->select('id', 'theme')->get();
+        $themes = GPTBot::whereIn('id', $main_bot->getBotsIds())->select('id', 'theme', 'name')->get();
         $themes_string = '';
         foreach ($themes as $theme) {
             $theme_name = $theme->theme ?? $theme->name;
