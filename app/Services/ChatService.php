@@ -86,7 +86,7 @@ class ChatService
         return $moderator_response . $result;
     }
 
-    public function selectNextBot($dialog_id, $last_message = null)
+    public function selectNextBot($dialog_id, $last_message = null, GPTBot $current_bot = null)
     {
         /** @var Dialog $dialog */
         $dialog = Dialog::find($dialog_id);
@@ -95,7 +95,7 @@ class ChatService
         if (!$main_bot) {
             $dialog->update(['main_bot_id' => MainBot::first()->id]);
         }
-        $messagesModel = Message::whereDialogId($dialog_id)->latest()->limit(5)->get();
+        $messagesModel = Message::whereDialogId($dialog_id)->latest()->limit(5)->get()->reverse();
         $messages = [];
         foreach ($messagesModel as $index => $item) {
             if ($index == 0) continue;
@@ -107,9 +107,10 @@ class ChatService
         foreach ($themes as $theme) {
             $themes_string .= $theme->id . ': ' . $theme->theme . '. ';
         }
+        $last_theme = $current_bot ? ' Последняя тема была: ' . $current_bot->theme : '';
         /** @var GPTBot $spreader */
         $spreader = GPTBot::spreader()->first();
-        $prompt = $spreader->getPrompt($dialog_id) . '. Темы: ' . $themes_string;
+        $prompt = $spreader->getPrompt($dialog_id) . '. Темы: ' . $themes_string . $last_theme;
         $schema = [
             'name' => 'theme_detecting',
             'schema' => [

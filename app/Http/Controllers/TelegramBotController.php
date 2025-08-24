@@ -99,7 +99,7 @@ class TelegramBotController extends Controller
         event(new MessageReceivedEvent($message, dialog_id: $dialog));
 
         //Оцениваем ответ и выбираем следующего бота
-        $next_bot = $this->chatService->selectNextBot($dialog, $update_message->getText());
+        $next_bot = $this->chatService->selectNextBot($dialog, $update_message->getText(), $current_bot);
         if (isset($next_bot->id) && $next_bot->id > 0) {
             /** @var GPTBot $current_bot */
             $current_bot = GPTBot::find($next_bot->id);
