@@ -119,6 +119,7 @@ class TelegramBotController extends Controller
                     'Раздражение: ' . $next_bot->impatience . PHP_EOL .
                     'Общительность: ' . $next_bot->sociability
             ]);
+
             $response = $this->chatService->moderate($dialog, $update_message->getText());
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,

@@ -48,6 +48,13 @@ class ChatService
 
     public function moderate($dialog_id, $last_message)
     {
+        /** @var Dialog $dialog */
+        $dialog = Dialog::find($dialog_id);
+        /** @var MainBot $main_bot */
+        $main_bot = MainBot::find($dialog->main_bot_id);
+        if (!$main_bot) {
+            $dialog->update(['main_bot_id' => MainBot::first()->id]);
+        }
         $messagesModel = Message::whereDialogId($dialog_id)->get();
         $messages = [];
         foreach ($messagesModel as $index => $item) {
@@ -55,8 +62,14 @@ class ChatService
             $messages[] = GptMessageData::from($item);
         }
         $messages[] = new GptMessageData('user', $last_message);
+
         /** @var GPTBot $moderator */
-        $moderator = GPTBot::moderator()->first();
+        $moderator = GPTBot::moderator()->whereIn('id', $main_bot->getBotsIds())->first();
+
+        if (!$moderator) {
+            return 'Ошибка: нет модератора для основного бота "' . $main_bot->name . '", id:' . $main_bot->id;
+        }
+
         $prompt = $moderator->getPrompt();
         Log::info('ChatService->moderate');
         $response = $this->gptService->sendMessages($messages, $prompt);
