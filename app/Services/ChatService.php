@@ -105,9 +105,9 @@ class ChatService
         $themes = GPTBot::whereIn('id', $main_bot->getBotsIds())->select('id', 'theme')->get();
         $themes_string = '';
         foreach ($themes as $theme) {
-            $themes_string .= $theme->id . ': ' . $theme->theme . '. ';
+            $themes_string .= $theme->id . ': ' . $theme->theme ?? $theme->name . '. ';
         }
-        $last_theme = $current_bot ? ' Последняя тема была: ' . $current_bot->theme : '';
+        $last_theme = $current_bot ? ' Последняя тема была: ' . $current_bot->name : '';
         /** @var GPTBot $spreader */
         $spreader = GPTBot::spreader()->first();
         $prompt = $spreader->getPrompt($dialog_id) . '. Темы: ' . $themes_string . $last_theme;
