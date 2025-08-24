@@ -70,7 +70,7 @@ class ChatService
             return 'Ошибка: нет модератора для основного бота "' . $main_bot->name . '", id:' . $main_bot->id;
         }
 
-        $prompt = $moderator->getPrompt();
+        $prompt = $main_bot->prompt . ' ' . $moderator->getPrompt();
         Log::info('ChatService->moderate');
         $response = $this->gptService->sendMessages($messages, $prompt);
         $result = $response[0];
