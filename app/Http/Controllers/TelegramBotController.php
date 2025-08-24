@@ -72,6 +72,7 @@ class TelegramBotController extends Controller
         //Если введено название системного бота, начинаем новый диалог с ним
         if (MainBot::whereNotNull('starting_bot')->whereSystemName($update_message->getText())->exists()) {
             $this->startNewDialog($customer, $update_message->getText());
+            Log::channel('bot')->info('start new dialog with ' . $update_message->getText());
 
             return false;
         }
@@ -256,7 +257,7 @@ class TelegramBotController extends Controller
         Cache::put($customer->telegram_id . '_main_bot', $main_bot->id);
 
         //Приветствие
-        $greeting = ChatService::greet($customer->telegram_id, MessageSources::Telegram, $this->gptService);
+        $greeting = ChatService::greet($customer->telegram_id, MessageSources::Telegram, $this->gptService, $starting_bot);
         MessageReceivedEvent::dispatch($greeting, 'assistant', $dialog->id);
 
         Telegram::sendMessage([

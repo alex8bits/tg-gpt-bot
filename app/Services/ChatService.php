@@ -145,14 +145,14 @@ class ChatService
         return $result;
     }
 
-    public static function greet($chat_id, MessageSources $source, $gptService)
+    public static function greet($chat_id, MessageSources $source, $gptService, GPTBot $greeter = null)
     {
         if (!config('open_ai.enabled')) {
             return false;
         }
 
         /** @var GPTBot $greeter */
-        $greeter = GPTBot::whereType(BotTypes::WELCOME)->first();
+        $greeter = $greeter ?? GPTBot::whereType(BotTypes::WELCOME)->first();
 
         /** @var Customer $customer */
         $customer = Customer::firstOrCreate([$source->identifierField() => $chat_id]);
