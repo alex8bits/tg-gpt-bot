@@ -158,7 +158,7 @@ class ChatService
         $customer = Customer::firstOrCreate([$source->identifierField() => $chat_id]);
 
         $messages = [];
-        $messages[] = new GptMessageData('system', $prompt ?? config('open_ai.prompt'));
+        $messages[] = new GptMessageData('system', $greeter->getPrompt() ?? config('open_ai.prompt'));
 
         $greeting_text = $customer->name ? 'Пользователя зовут ' . $customer->name . '. ' : '';
         $greeting_text .= $greeter->getPrompt();
