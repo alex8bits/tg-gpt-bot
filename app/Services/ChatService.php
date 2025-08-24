@@ -164,6 +164,7 @@ class ChatService
         $messages[] = new GptMessageData('user', $greeting_text);
 
         Log::info('ChatService->greet');
+        Log::info($messages);
         $response = $gptService->sendMessages($messages);
 
         $message = new TelegramMessageData($chat_id, $response[0], MessageSources::Telegram, $greeter->id);
