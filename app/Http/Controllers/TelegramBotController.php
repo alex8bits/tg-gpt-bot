@@ -108,6 +108,7 @@ class TelegramBotController extends Controller
                 'chat_id' => $customer->telegram_id,
                 'text' => '**Debug**'. PHP_EOL .
                     'Бот: ' . $current_bot->name . PHP_EOL .
+                    'ID: ' . $current_bot->id . PHP_EOL .
                     'Раздражение: ' . $next_bot->impatience . PHP_EOL .
                     'Общительность: ' . $next_bot->sociability,
             ]);
