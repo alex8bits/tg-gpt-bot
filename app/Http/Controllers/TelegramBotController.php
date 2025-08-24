@@ -101,21 +101,21 @@ class TelegramBotController extends Controller
         //Оцениваем ответ и выбираем следующего бота
         $next_bot = $this->chatService->selectNextBot($dialog, $update_message->getText(), $current_bot);
         if (isset($next_bot->id) && $next_bot->id > 0) {
-            /** @var GPTBot $next_bot */
-            $next_bot = GPTBot::find($next_bot->id);
+            $old_theme = $current_bot->theme;
+            /** @var GPTBot $current_bot */
+            $current_bot = GPTBot::find($next_bot->id);
+            $new_theme = $current_bot->theme;
+            Cache::put($customer->telegram_id . '_current_bot', $next_bot->id);
+
             $text = '**Debug**'. PHP_EOL .
-                'Бот: ' . $next_bot->name . PHP_EOL .
-                'ID: ' . $next_bot->id . PHP_EOL .
+                'Бот: ' . $current_bot->name . PHP_EOL .
+                'ID: ' . $current_bot->id . PHP_EOL .
                 'Раздражение: ' . $next_bot->impatience . PHP_EOL .
                 'Общительность: ' . $next_bot->sociability . PHP_EOL;
 
-            if ($next_bot->id != $current_bot->id) {
-                $text .= 'Тема изменена c `' . $current_bot->theme . '` на `' . $next_bot->theme . '`';
+            if ($old_theme != $new_theme) {
+                $text .= 'Тема изменена c `' . $old_theme . '` на `' . $new_theme . '`';
             }
-
-            /** @var GPTBot $current_bot */
-            $current_bot = GPTBot::find($next_bot->id);
-            Cache::put($customer->telegram_id . '_current_bot', $next_bot->id);
 
             Telegram::sendMessage([
                 'chat_id' => $customer->telegram_id,
