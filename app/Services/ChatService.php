@@ -81,7 +81,9 @@ class ChatService
             'messages' => $messages,
         ]);
 
-        return $result;
+        $moderator_response = "Отвечает модератор `$moderator->name` id: $moderator->id ";
+
+        return $moderator_response . $result;
     }
 
     public function selectNextBot($dialog_id, $last_message = null)

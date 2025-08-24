@@ -13,4 +13,9 @@ class Dialog extends Model
     protected $fillable = [
         'main_bot_id'
     ];
+
+    public function mainBot()
+    {
+        return $this->belongsTo(MainBot::class);
+    }
 }
