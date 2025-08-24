@@ -145,24 +145,23 @@ class ChatService
         return $result;
     }
 
-    public static function greet($chat_id, MessageSources $source, $gptService, GPTBot $greeter = null)
+    public static function greet($chat_id, MessageSources $source, $gptService, GPTBot $greeter, MainBot $mainBot)
     {
         if (!config('open_ai.enabled')) {
             return false;
         }
 
-        /** @var GPTBot $greeter */
-        $greeter = $greeter ?? GPTBot::whereType(BotTypes::WELCOME)->first();
-
         /** @var Customer $customer */
         $customer = Customer::firstOrCreate([$source->identifierField() => $chat_id]);
 
         $messages = [];
+        $messages[] = new GptMessageData('system', $mainBot->prompt);
+
         $greeting_text = $greeter->getPrompt() ?? config('open_ai.prompt');
         if ($customer->name) {
             $greeting_text .= ' Пользователя зовут ' . $customer->name;
         }
-        $messages[] = new GptMessageData('system', $greeting_text);
+        $messages[] = new GptMessageData('user', $greeting_text);
 
         Log::info('ChatService->greet');
         Log::info($messages);

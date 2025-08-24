@@ -257,7 +257,7 @@ class TelegramBotController extends Controller
         Cache::put($customer->telegram_id . '_main_bot', $main_bot->id);
 
         //Приветствие
-        $greeting = ChatService::greet($customer->telegram_id, MessageSources::Telegram, $this->gptService, $starting_bot);
+        $greeting = ChatService::greet($customer->telegram_id, MessageSources::Telegram, $this->gptService, $starting_bot, $main_bot);
         MessageReceivedEvent::dispatch($greeting, 'assistant', $dialog->id);
 
         Telegram::sendMessage([
