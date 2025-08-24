@@ -101,10 +101,10 @@ class TelegramBotController extends Controller
         //Оцениваем ответ и выбираем следующего бота
         $next_bot = $this->chatService->selectNextBot($dialog, $update_message->getText(), $current_bot);
         if (isset($next_bot->id) && $next_bot->id > 0) {
-            $old_theme = $current_bot->theme;
+            $old_theme = $current_bot->name;
             /** @var GPTBot $current_bot */
             $current_bot = GPTBot::find($next_bot->id);
-            $new_theme = $current_bot->theme;
+            $new_theme = $current_bot->name;
             Cache::put($customer->telegram_id . '_current_bot', $next_bot->id);
 
             $text = '**Debug**'. PHP_EOL .
