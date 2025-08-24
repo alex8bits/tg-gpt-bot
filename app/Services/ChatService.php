@@ -81,7 +81,7 @@ class ChatService
             'messages' => $messages,
         ]);
 
-        $moderator_response = "Отвечает модератор `$moderator->name` id: $moderator->id ";
+        $moderator_response = "Отвечает модератор `$moderator->name` id: $moderator->id" . PHP_EOL;
 
         return $moderator_response . $result;
     }
